@@ -51,15 +51,20 @@
 
   ** Why? **
 
-  * The Array, Object constructors are ambiguous in how they deal with their
+  * The Array, Object, etc constructors are ambiguous in how they deal with their
   paramameters and they can be overriden.
 
   Example:
 
+  ```javascript
     Array = 5;
     arr   = new Array();
 
     //TypeError: number is not a function
+  ```
+
+  Also:
+
   * They are shorter.
   * Linters like them.
 
@@ -123,7 +128,8 @@
 
   The dot notation is less verbose and very common in many programming languages.
 
-  - Avoid using [reserved words](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Reserved_Words?redirectlocale=en-US&redirectslug=JavaScript%2FReference%2FReserved_Words) for properties
+
+- Avoid using [reserved words](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Reserved_Words?redirectlocale=en-US&redirectslug=JavaScript%2FReference%2FReserved_Words) for properties
 
   ```javascript
   //bad
@@ -148,7 +154,7 @@
 
 ### <a name='js-functions'>Functions</a>
 
-**Prefer function expressions to declarations**
+- Prefer function expressions to declarations
 
 ```javascript
 //function declaration
@@ -165,7 +171,7 @@ var foo = function() {};
 
 * Function declarations get [hoisted](http://bonsaiden.github.io/JavaScript-Garden/#function.scopes) before the execution of the program starts.
 
-**Avoid declaring functions inside loops**
+- Avoid declaring functions inside loops
 
 The reasons have to do with performance
 
@@ -199,107 +205,108 @@ for (i = 0; i < 10000; i++) {f
 
 - Always use `var` to declare variables. Not doing so will result in global variables. We want to avoid polluting the global namespace. Captain Planet warned us of that.
 
-    ```javascript
-    // bad
-    superPower = new SuperPower();
+  ```javascript
+  // bad
+  superPower = new SuperPower();
 
-    // good
-    var superPower = new SuperPower();
-    ```
+  // good
+  var superPower = new SuperPower();
+  ```
 
-  - Use one `var` declaration for multiple variables and declare each variable on a newline.
+- Use one `var` declaration for multiple variables and declare each variable on a newline.
 
-    ```javascript
-    // bad
-    var items = getItems();
-    var goSportsTeam = true;
-    var dragonball = 'z';
+  ```javascript
+  // bad
+  var items = getItems();
+  var goSportsTeam = true;
+  var dragonball = 'z';
 
-    // good
-    var items = getItems(),
-        goSportsTeam = true,
-        dragonball = 'z';
-    ```
+  // good
+  var items = getItems(),
+      goSportsTeam = true,
+      dragonball = 'z';
+  ```
 
-    - Declare unassigned variables last. This is helpful when later on you might need to assign a variable depending on one of the previous assigned variables.
+- Declare unassigned variables last. This is helpful when later on you might need to assign a variable depending on one of the previous assigned variables.
 
-    ```javascript
-    // bad
-    var i, len, dragonball,
-        items = getItems(),
-        goSportsTeam = true;
+  ```javascript
+  // bad
+  var i, len, dragonball,
+      items = getItems(),
+      goSportsTeam = true;
 
-    // bad
-    var i, items = getItems(),
-        dragonball,
-        goSportsTeam = true,
-        len;
+  // bad
+  var i, items = getItems(),
+      dragonball,
+      goSportsTeam = true,
+      len;
 
-    // good
-    var items = getItems(),
-        goSportsTeam = true,
-        dragonball,
-        length,
-        i;
-    ```
+  // good
+  var items = getItems(),
+      goSportsTeam = true,
+      dragonball,
+      length,
+      i;
+  ```
 
-  - Assign variables at the top of their scope. This helps avoid issues with variable declaration and assignment [hoisting](#hoisting) related issues.
+- Assign variables at the top of their scope. This helps avoid issues with variable declaration and assignment [hoisting](#hoisting) related issues.
 
-    ```javascript
-    // bad
-    function() {
-      test();
-      console.log('doing stuff..');
 
-      //..other stuff..
+  ```javascript
+  // bad
+  function() {
+    test();
+    console.log('doing stuff..');
 
-      var name = getName();
+    //..other stuff..
 
-      if (name === 'test') {
-        return false;
-      }
+    var name = getName();
 
-      return name;
+    if (name === 'test') {
+      return false;
     }
 
-    // good
-    function() {
-      var name = getName();
+    return name;
+  }
 
-      test();
-      console.log('doing stuff..');
+  // good
+  function() {
+    var name = getName();
 
-      //..other stuff..
+    test();
+    console.log('doing stuff..');
 
-      if (name === 'test') {
-        return false;
-      }
+    //..other stuff..
 
-      return name;
+    if (name === 'test') {
+      return false;
     }
 
-    // bad
-    function() {
-      var name = getName();
+    return name;
+  }
 
-      if (!arguments.length) {
-        return false;
-      }
+  // bad
+  function() {
+    var name = getName();
 
-      return true;
+    if (!arguments.length) {
+      return false;
     }
 
-    // good
-    function() {
-      if (!arguments.length) {
-        return false;
-      }
+    return true;
+  }
 
-      var name = getName();
-
-      return true;
+  // good
+  function() {
+    if (!arguments.length) {
+      return false;
     }
-    ```
+
+    var name = getName();
+
+    return true;
+  }
+  ```
 
 **[[⬆]](#TOC)**
 
@@ -334,7 +341,7 @@ for (i = 0; i < 10000; i++) {f
     }
     ```
 
-  - Anonymous function expressions hoist their variable name, but not the function assignment.
+- Anonymous function expressions hoist their variable name, but not the function assignment.
 
     ```javascript
     function example() {
@@ -348,212 +355,214 @@ for (i = 0; i < 10000; i++) {f
     }
     ```
 
-  - Named function expressions hoist the variable name, not the function name or the function body.
+- Named function expressions hoist the variable name, not the function name or the function body.
 
-    ```javascript
+  ```javascript
+  function example() {
+    console.log(named); // => undefined
+
+    named(); // => TypeError named is not a function
+
+    superPower(); // => ReferenceError superPower is not defined
+
+    var named = function superPower() {
+      console.log('Flying');
+    };
+
+
+    // the same is true when the function name
+    // is the same as the variable name.
     function example() {
       console.log(named); // => undefined
 
       named(); // => TypeError named is not a function
 
-      superPower(); // => ReferenceError superPower is not defined
-
-      var named = function superPower() {
-        console.log('Flying');
+      var named = function named() {
+        console.log('named');
       };
-
-
-      // the same is true when the function name
-      // is the same as the variable name.
-      function example() {
-        console.log(named); // => undefined
-
-        named(); // => TypeError named is not a function
-
-        var named = function named() {
-          console.log('named');
-        };
-      }
     }
-    ```
+  }
+  ```
 
-  - Function declarations hoist their name and the function body.
+- Function declarations hoist their name and the function body.
 
-    ```javascript
-    function example() {
-      superPower(); // => Flying
+  ```javascript
+  function example() {
+    superPower(); // => Flying
 
-      function superPower() {
-        console.log('Flying');
-      }
+    function superPower() {
+      console.log('Flying');
     }
-    ```
+  }
+  ```
 
-  - For more information refer to one of the following:
-    - [JavaScript Scoping & Hoisting](http://www.adequatelygood.com/2010/2/JavaScript-Scoping-and-Hoisting) by [Ben Cherry](http://www.adequatelygood.com/)
-    - [JavaScript Garden - Scopes](http://bonsaiden.github.io/JavaScript-Garden/#function.scopes)
+- For more information refer to one of the following:
+  - [JavaScript Scoping & Hoisting](http://www.adequatelygood.com/2010/2/JavaScript-Scoping-and-Hoisting) by [Ben Cherry](http://www.adequatelygood.com/)
+  - [JavaScript Garden - Scopes](http://bonsaiden.github.io/JavaScript-Garden/#function.scopes)
 
     **[[⬆]](#TOC)**
 
 
 ### <a name='js-whitespace'>Whitespace</a>
 
-  - Place 1 space before the leading brace.
+- Place 1 space before the leading brace.
 
-    ```javascript
-    // bad
-    function test(){
-      console.log('test');
-    }
 
-    // good
-    function test() {
-      console.log('test');
-    }
+  ```javascript
+  // bad
+  function test(){
+    console.log('test');
+  }
 
-    // bad
-    dog.set('attr',{
-      age: '1 year',
-      breed: 'Bernese Mountain Dog'
-    });
+  // good
+  function test() {
+    console.log('test');
+  }
 
-    // good
-    dog.set('attr', {
-      age: '1 year',
-      breed: 'Bernese Mountain Dog'
-    });
+  // bad
+  dog.set('attr',{
+    age: '1 year',
+    breed: 'Bernese Mountain Dog'
+  });
+
+  // good
+  dog.set('attr', {
+    age: '1 year',
+    breed: 'Bernese Mountain Dog'
+  });
+  ```
+
+
+- Place an empty newline at the end of the file.
+
+
+  ```javascript
+  // bad
+  (function(global) {
+    // ...stuff...
+  })(this);
+  ```
+
+
+  ```javascript
+  // good
+  (function(global) {
+    // ...stuff...
+  })(this);
+  ```
+
+- Use indentation when making long method chains.
+
+  ```javascript
+  // bad
+  $('#items').find('.selected').highlight().end().find('.open').updateCount();
+
+  // good
+  $('#items')
+    .find('.selected')
+      .highlight()
+      .end()
+    .find('.open')
+      .updateCount();
+
+
+  // bad
+  var leds = stage.selectAll('.led').data(data).enter().append('svg:svg').class('led', true)
+      .attr('width',  (radius + margin) * 2).append('svg:g')
+      .attr('transform', 'translate(' + (radius + margin) + ',' + (radius + margin) + ')')
+      .call(tron.led);
+
+  // good
+  var leds = stage.selectAll('.led')
+      .data(data)
+    .enter().append('svg:svg')
+      .class('led', true)
+      .attr('width',  (radius + margin) * 2)
+    .append('svg:g')
+      .attr('transform', 'translate(' + (radius + margin) + ',' + (radius + margin) + ')')
+      .call(tron.led);
+  ```
+
+- Insert one extra space before and after operators
+
+  ```javascript
+  //bad
+  foo = 'bar';
+
+  //bad
+  c = a+b;
+
+  //good
+  c = a + b;
+  ```
+
+- Do not include extra spaces around arguments
+
+  ```javascript
+  //bad
+  foo( options );
+
+  //good
+  foo(options)
+  ```
+
+- Assignments should be vertically aligned
+
+  ```javascript
+  //bad
+  var a = 'once',
+      little = 'little',
+      bird = 'bird',
+      told = 'told',
+      me = 'me';
+
+  //good
+  var a      = 'once',
+      little = 'little',
+      bird   = 'bird',
+      told   = 'told',
+      me     = 'me';
+
+  //you may also leave an empty line after var
+  // like (easier to use with editor alignment plugins)
+  var
+      a      = 'once',
+      little = 'little',
+      bird   = 'bird',
+      told   = 'told',
+      me     = 'me';
     ```
 
-  - Place an empty newline at the end of the file.
-
-
-    ```javascript
-    // bad
-    (function(global) {
-      // ...stuff...
-    })(this);
-    ```
-
-
-    ```javascript
-    // good
-    (function(global) {
-      // ...stuff...
-    })(this);
-    ```
-
-  - Use indentation when making long method chains.
-
-    ```javascript
-    // bad
-    $('#items').find('.selected').highlight().end().find('.open').updateCount();
-
-    // good
-    $('#items')
-      .find('.selected')
-        .highlight()
-        .end()
-      .find('.open')
-        .updateCount();
-
-
-    // bad
-    var leds = stage.selectAll('.led').data(data).enter().append('svg:svg').class('led', true)
-        .attr('width',  (radius + margin) * 2).append('svg:g')
-        .attr('transform', 'translate(' + (radius + margin) + ',' + (radius + margin) + ')')
-        .call(tron.led);
-
-    // good
-    var leds = stage.selectAll('.led')
-        .data(data)
-      .enter().append('svg:svg')
-        .class('led', true)
-        .attr('width',  (radius + margin) * 2)
-      .append('svg:g')
-        .attr('transform', 'translate(' + (radius + margin) + ',' + (radius + margin) + ')')
-        .call(tron.led);
-    ```
-
-    - Insert one extra space before and after operators
-
-    ```javascript
-    //bad
-    foo = 'bar';
-
-    //bad
-    c = a+b;
-
-    //good
-    c = a + b;
-    ```
-
-    - Do not include extra spaces around arguments
-
-    ```javascript
-    //bad
-    foo( options );
-
-    //good
-    foo(options)
-    ```
-
-    - Assignments should be vertically aligned
-
-    ```javascript
-    //bad
-    var a = 'once',
-        little = 'little',
-        bird = 'bird',
-        told = 'told',
-        me = 'me';
-
-    //good
-    var a      = 'once',
-        little = 'little',
-        bird   = 'bird',
-        told   = 'told',
-        me     = 'me';
-
-    //you may also leave an empty line after var
-    // like (easier to use with editor alignment plugins)
-    var
-        a      = 'once',
-        little = 'little',
-        bird   = 'bird',
-        told   = 'told',
-        me     = 'me';
-    ```
-
-    **[[⬆]](#TOC)**
+  **[[⬆]](#TOC)**
 
 ### <a name='js-semicolons'>Semicolons</a>
 
-  - **Yup.**
+- **Yup.**
 
   No reason to make assumptions about [ASI](http://es5.github.io/#x7.9)
 
 
   [read more](http://benalman.com/news/2013/01/advice-javascript-semicolon-haters/)
 
-    ```javascript
-    // bad
-    (function() {
-      var name = 'Skywalker'
-      return name
-    })()
+  ```javascript
+  // bad
+  (function() {
+    var name = 'Skywalker'
+    return name
+  })()
 
-    // good
-    (function() {
-      var name = 'Skywalker';
-      return name;
-    })();
+  // good
+  (function() {
+    var name = 'Skywalker';
+    return name;
+  })();
 
-    // good
-    ;(function() {
-      var name = 'Skywalker';
-      return name;
-    })();
-    ```
+  // good
+  ;(function() {
+    var name = 'Skywalker';
+    return name;
+  })();
+  ```
 
   **[[⬆]](#TOC)**
 
@@ -563,240 +572,240 @@ for (i = 0; i < 10000; i++) {f
 ### <a name='js-type-coercion'>Type Casting & Coercion</a>
 
 
-* Perform type coercion at the beginning of the statement.
+- Perform type coercion at the beginning of the statement.
 
 
 * Strings:
 
-    ```javascript
-    //  => this.reviewScore = 9;
+  ```javascript
+  //  => this.reviewScore = 9;
 
-    // bad
-    var totalScore = this.reviewScore + '';
+  // bad
+  var totalScore = this.reviewScore + '';
 
-    // good
-    var totalScore = '' + this.reviewScore;
+  // good
+  var totalScore = '' + this.reviewScore;
 
-    // bad
-    var totalScore = '' + this.reviewScore + ' total score';
+  // bad
+  var totalScore = '' + this.reviewScore + ' total score';
 
-    // good
-    var totalScore = this.reviewScore + ' total score';
-    ```
+  // good
+  var totalScore = this.reviewScore + ' total score';
+  ```
 
-  - Use `parseInt` for Numbers and always with a radix for type casting.
+- Use `parseInt` for Numbers and always with a radix for type casting.
   - If for whatever reason you are doing something wild and `parseInt` is your bottleneck and need to use Bitshift for [performance reasons](http://jsperf.com/coercion-vs-casting/3), leave a comment explaining why and what you're doing.
 
-    ```javascript
-    var inputValue = '4';
+  ```javascript
+  var inputValue = '4';
 
-    // bad
-    var val = new Number(inputValue);
+  // bad
+  var val = new Number(inputValue);
 
-    // bad
-    var val = +inputValue;
+  // bad
+  var val = +inputValue;
 
-    // bad
-    var val = inputValue >> 0;
+  // bad
+  var val = inputValue >> 0;
 
-    // bad
-    var val = parseInt(inputValue);
+  // bad
+  var val = parseInt(inputValue);
 
-    // good
-    var val = Number(inputValue);
+  // good
+  var val = Number(inputValue);
 
-    // good
-    var val = parseInt(inputValue, 10);
+  // good
+  var val = parseInt(inputValue, 10);
 
-    // good
-    /**
-     * parseInt was the reason my code was slow.
-     * Bitshifting the String to coerce it to a
-     * Number made it a lot faster.
-     */
-    var val = inputValue >> 0;
+  // good
+  /**
+   * parseInt was the reason my code was slow.
+   * Bitshifting the String to coerce it to a
+   * Number made it a lot faster.
+   */
+  var val = inputValue >> 0;
 
-    //also good
-    var val = ~~inputValue;
-    ```
+  //also good
+  var val = ~~inputValue;
+  ```
 
-  - Booleans:
+- Booleans:
 
-    ```javascript
-    var age = 0;
+  ```javascript
+  var age = 0;
 
-    // bad
-    var hasAge = new Boolean(age);
+  // bad
+  var hasAge = new Boolean(age);
 
-    // good
-    var hasAge = Boolean(age);
+  // good
+  var hasAge = Boolean(age);
 
-    // good
-    var hasAge = !!age;
+  // good
+  var hasAge = !!age;
 
-    //also good
-    var hasAge = age ? true : false;
+  //also good
+  var hasAge = age ? true : false;
     ```
 
   **[[⬆]](#TOC)**
 
 ### <a name='js-jquery'>jQuery</a>
 
-  - Prefix jQuery object variables with a `$`.
+- Prefix jQuery object variables with a `$`.
 
-    ```javascript
-    // bad
-    var sidebar = $('.sidebar');
+  ```javascript
+  // bad
+  var sidebar = $('.sidebar');
 
-    // good
+  // good
+  var $sidebar = $('.sidebar');
+  ```
+
+- Cache jQuery lookups.
+
+  ```javascript
+  // bad
+  function setSidebar() {
+    $('.sidebar').hide();
+
+    // ...stuff...
+
+    $('.sidebar').css({
+      'background-color': 'pink'
+    });
+  }
+
+  // good
+  function setSidebar() {
     var $sidebar = $('.sidebar');
-    ```
+    $sidebar.hide();
 
-  - Cache jQuery lookups.
+    // ...stuff...
 
-    ```javascript
-    // bad
-    function setSidebar() {
-      $('.sidebar').hide();
+    $sidebar.css({
+      'background-color': 'pink'
+    });
+  }
+  ```
 
-      // ...stuff...
-
-      $('.sidebar').css({
-        'background-color': 'pink'
-      });
-    }
-
-    // good
-    function setSidebar() {
-      var $sidebar = $('.sidebar');
-      $sidebar.hide();
-
-      // ...stuff...
-
-      $sidebar.css({
-        'background-color': 'pink'
-      });
-    }
-    ```
-
-  - Scope your DOM queries properly
+- Scope your DOM queries properly
   Try make the selector engine use [querySelectorAll](https://developer.mozilla.org/en-US/docs/Web/API/Document.querySelectorAll)
 
   also good read: [w3c selectors-api](http://www.w3.org/TR/selectors-api/)
 
-    ```javascript
-    // bad
-    // it translates to $()
-    $('.sidebar', 'ul').hide();
+  ```javascript
+  // bad
+  // it translates to $()
+  $('.sidebar', 'ul').hide();
 
-    //bad
-    // internally uses $.sibling to find nodes following
-    // other nodes in the same tree.
-    $('.sidebar').children('ul').hide();
+  //bad
+  // internally uses $.sibling to find nodes following
+  // other nodes in the same tree.
+  $('.sidebar').children('ul').hide();
 
-    // good
-    $('.sidebar').find('ul').hide();
+  // good
+  $('.sidebar').find('ul').hide();
 
 
-    // good
-    // uses
-    $('.sidebar ul').hide();
+  // good
+  // uses
+  $('.sidebar ul').hide();
 
-    // good
-    $('.sidebar > ul').hide();
-    ```
+  // good
+  $('.sidebar > ul').hide();
+  ```
 
   **[[⬆]](#TOC)**
 
 
 ### <a name='accessors'>Accessors</a>
 
-  - Accessor functions for properties are not required
+- Accessor functions for properties are not required
   - If you do make accessor functions use getVal() and setVal('hello')
 
-    ```javascript
-    // bad
-    dragon.age();
+  ```javascript
+  // bad
+  dragon.age();
 
-    // good
-    dragon.getAge();
+  // good
+  dragon.getAge();
 
-    // bad
-    dragon.age(25);
+  // bad
+  dragon.age(25);
 
-    // good
-    dragon.setAge(25);
-    ```
+  // good
+  dragon.setAge(25);
+  ```
 
-  - If the property is a boolean, use isVal() or hasVal()
+- If the property is a boolean, use isVal() or hasVal()
 
-    ```javascript
-    // bad
-    if (!dragon.age()) {
-      return false;
-    }
+  ```javascript
+  // bad
+  if (!dragon.age()) {
+    return false;
+  }
 
-    // good
-    if (!dragon.hasAge()) {
-      return false;
-    }
-    ```
+  // good
+  if (!dragon.hasAge()) {
+    return false;
+  }
+  ```
 
-  - It's advised to create get() and set() functions, but be consistent.
+- It's advised to create get() and set() functions, but be consistent.
 
-    ```javascript
-    function Jedi(options) {
-      options || (options = {});
-      var lightsaber = options.lightsaber || 'blue';
-      this.set('lightsaber', lightsaber);
-    }
+  ```javascript
+  function Jedi(options) {
+    options || (options = {});
+    var lightsaber = options.lightsaber || 'blue';
+    this.set('lightsaber', lightsaber);
+  }
 
-    Jedi.prototype.set = function(key, val) {
-      this[key] = val;
-    };
+  Jedi.prototype.set = function(key, val) {
+    this[key] = val;
+  };
 
-    Jedi.prototype.get = function(key) {
-      return this[key];
-    };
-    ```
-
-
-    - Methods can return `this` to help with method chaining.
-
-    ```javascript
-    // bad
-    Jedi.prototype.jump = function() {
-      this.jumping = true;
-      return true;
-    };
-
-    Jedi.prototype.setHeight = function(height) {
-      this.height = height;
-    };
-
-    var luke = new Jedi();
-    luke.jump(); // => true
-    luke.setHeight(20) // => undefined
-
-    // good
-    Jedi.prototype.jump = function() {
-      this.jumping = true;
-      return this;
-    };
-
-    Jedi.prototype.setHeight = function(height) {
-      this.height = height;
-      return this;
-    };
-
-    var luke = new Jedi();
-
-    luke.jump()
-      .setHeight(20);
-    ```
+  Jedi.prototype.get = function(key) {
+    return this[key];
+  };
+  ```
 
 
-  **[[⬆]](#TOC)**
+- Methods can return `this` to help with method chaining.
+
+  ```javascript
+  // bad
+  Jedi.prototype.jump = function() {
+    this.jumping = true;
+    return true;
+  };
+
+  Jedi.prototype.setHeight = function(height) {
+    this.height = height;
+  };
+
+  var luke = new Jedi();
+  luke.jump(); // => true
+  luke.setHeight(20) // => undefined
+
+  // good
+  Jedi.prototype.jump = function() {
+    this.jumping = true;
+    return this;
+  };
+
+  Jedi.prototype.setHeight = function(height) {
+    this.height = height;
+    return this;
+  };
+
+  var luke = new Jedi();
+
+  luke.jump()
+    .setHeight(20);
+  ```
+
+
+**[[⬆]](#TOC)**
 
 
 ## <a name='tools'>Tools</a>
