@@ -1,20 +1,18 @@
 ## <a name='TOC'>Table of Contents</a>
 
 1. [Conventions](#conventions)
+  1.[Code Conventions](#code-conventions)
+  1.[Naming Conventions](#name-conventions)
 
-1. [javaScript Style](#javascript)
+1. [CoffeeScript Style](#coffeescript)
   1. [Literals](#js-literals)
   1. [Strings](#js-strings)
   1. [Objects](#js-objects)
   1. [Functions](#js-functions)
   1. [Variables](#js-variables)
-  1. [Hoisting](#js-hoisting)
   1. [Whitespace](#js-whitespace)
-  1. [Semicolons](#js-semicolons)
   1. [Type Coercion](#js-type-coercion)
-  1. [JQuery](#js-jquery)
-  1. [Accessors](#js-accessors)
-1. [coffeeScript Style](#coffeescript.md)
+  1. [DOM Manipulation](#js-jquery)
 
 1. [Tools](#tools)
   1. [linting](#linting)
@@ -36,56 +34,91 @@
 
 ## <a name='conventions'>Conventions</a>
 
+### <a name='code-conventions'>Code Conventions</a>
+
   * Write new code in coffeescript.
-  * Use soft-tabs with a two space indent.
-  * CamelCase for functions and classes, underscores for variables
-  * prefix jQuery/ender-qwery elements with ``$`` like ``$taco = $('.js-taco')``
+
+  * Use soft-tabs with a **2 space** indent.
+
+  * Try to keep line length **80-90** chars maximum.
+
+  * Do not include trailing whitespaces.
+
+### <a name='name-conventions'>Naming Conventions</a>
+
+  * Use **CamelCaps** for classes and constructors.
+
+  * Use **camelCase** for functions/methods
+
+  * **Underscores** are allowed for variable names only.
+
+  * Use **leading underscores** only for variables and methods that are intended to be "private".
+
+  * Use CAPS for constants.
+
+  * Prefix jQuery object variables with a `$`.
+
+  ```coffeescript
+  sidebar = $('.sidebar') # bad
+
+  $sidebar = $('.sidebar') #good
+  ```
 
 **[[⬆]](#TOC)**
 
-## <a name='javascript'>JavaScript</a>
+## <a name='coffescript'>CoffeeScript</a>
 
 ### <a name='js-literals'>Literals</a>
 
-  - Use literals whenever possible
+  - Prefer literals over native constructors
 
-  ** Why? **
+  *The Array, Object, etc constructors are ambiguous in how they deal with their
+  paramameters and they can be overriden. Also they are shorter and linters like them.*
 
-  * The Array, Object, etc constructors are ambiguous in how they deal with their
-  paramameters and they can be overriden.
 
-  Example:
+  ```coffescript
+    # bad
+    Array = 5
+    arr   = new Array() # TypeError: number is not a function
 
-  ```javascript
-    Array = 5;
-    arr   = new Array();
-
-    //TypeError: number is not a function
+    # good
+    arr = []
   ```
 
-  Also:
-
-  * They are shorter.
-  * Linters like them.
 
 ### <a name='js-strings'>Strings</a>
 
-  - Use single quotes for strings
+  - Use string interpolation instead of concatenation
 
-  ```javascript
-  // bad
-  var name = "Bob Parr";
+  ```coffescript
+    name = 'Maria'
 
-  // good
-  var name = 'Bob Parr';
+    console.log "Hello " + name} + "!"  # bad
+
+    console.log "Hello #{name}!"  # good
   ```
 
-  **Why?**
+  - Use single quotes for strings (when not interpolating)
 
-  Double quoted strings imply interpolation.
+  ```coffescript
+    name = "Bob Parr" # bad
 
-  Although there is no native string interpolation in javaScript, there is in
-  CoffeeScript.
+    name = 'Bob Parr' # good
+  ```
+
+  - Use block strings when it improves readability
+
+  ```coffescript
+    my_message = 'Password too short!'
+    message_div = """
+                   <div class="warning_message">
+                      <p>
+                        <span>Warning:</span>
+                        #{my_message}
+                      </p>
+                   </div>
+                  """
+  ```
 
   [Read more about this](http://coffeescript.org/#strings).
 
@@ -93,109 +126,81 @@
 
 ### <a name='js-objects'>Objects</a>
 
-- Use dot notation when accessing properties.
+- Use **dot notation** when accessing properties.
 
-    ```javascript
-    var luke = {
-      jedi: true,
+    ```coffescript
+    luke =
+      jedi: true
       age: 28
-    };
 
-    // bad
-    var isJedi = luke['jedi'];
+    isJedi = luke['jedi'] # bad
 
-    // good
-    var isJedi = luke.jedi;
+    isJedi = luke.jedi # good
     ```
 
-  - Use subscript notation `[]` when accessing properties with a variable or when
-   that property name is a reserved word.
+- Use subscript notation `[]` when accessing properties with a variable or when
+  that property name is a reserved word.
 
-    ```javascript
-    var luke = {
-      jedi: true,
-      age: 28
-    };
+    ```coffescript
+    options =
+      'default':
+        bacon: 'nomnom'
 
-    function getProp(prop) {
-      return luke[prop];
-    }
-
-    var isJedi = getProp('jedi');
+    default_food = options['default']
     ```
-
-  **Why?**
-
-  The dot notation is less verbose and very common in many programming languages.
-
-
-- Avoid using [reserved words](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Reserved_Words?redirectlocale=en-US&redirectslug=JavaScript%2FReference%2FReserved_Words) for properties
-
-  ```javascript
-  //bad
-  //Syntax error prior to ECMAScript 5
-  var options = {
-      default: {
-        bacon: 'nomnom'
-      }
-  };
-
-  //better
-  var options = {
-      'default': {
-        bacon: 'nomnom'
-      }
-  };
-  ```
-
 
 **[[⬆]](#TOC)**
 
 
 ### <a name='js-functions'>Functions</a>
 
-- Prefer function expressions to declarations
+- Avoid declaring functions inside loops. The reasons have to do with performance
 
-```javascript
-//function declaration
-function foo() {}
+```coffeescript
+# bad
+for i in [1..100]
+  doSomething = ->
+    # code that does something here..
+
+  doSomething()
+
+# good
+doSomething = ->
+  # code that does something here..
+
+for i in [1..100]
+  doSomething()
+```
+
+- Avoid explicit 'return' where not required. But use it when 'early return' required.
+Example:
+
+```coffeescript
+browser = getBrowser()
+return 'oh no!' if 'ie6'
+
+# ...cool stuff ie6 doesn't support...
 ```
 
 
-```javascript
-//function expression
-var foo = function() {};
-```
+- Class methods can return `this` to help with method chaining.
+  Example:
 
-**Why?**
+```coffeescript
+  Jedi = ->
+    @jumping = false
+    @yelling = false
 
-* Function declarations get [hoisted](http://bonsaiden.github.io/JavaScript-Garden/#function.scopes) before the execution of the program starts.
+  Jedi::jump = ->
+    @jumping = true
+    return this
 
-- Avoid declaring functions inside loops
+  Jedi::yell = ->
+    @yelling = true
+    return this
 
-The reasons have to do with performance
-
-```javascript
-//bad
-for (i = 0; i < 10000; i++) {
-  doSomething = function() {
-    //code that does something here..
-  };
-
-  doSomething();
-}
-```
-
-
-```javascript
-//good
-doSomething = function() {
-  //code that does something here..
-};
-
-for (i = 0; i < 10000; i++) {f
-  doSomething();
-}
+  first = new Jedi
+  first.jump().yell()
 ```
 
 **[[⬆]](#TOC)**
@@ -203,609 +208,187 @@ for (i = 0; i < 10000; i++) {f
 
 ### <a name='js-variables'>Variables</a>
 
-- Always use `var` to declare variables. Not doing so will result in global variables. We want to avoid polluting the global namespace. Captain Planet warned us of that.
-
-  ```javascript
-  // bad
-  superPower = new SuperPower();
-
-  // good
-  var superPower = new SuperPower();
-  ```
-
-- Use one `var` declaration for multiple variables and declare each variable on a newline.
-
-  ```javascript
-  // bad
-  var items = getItems();
-  var goSportsTeam = true;
-  var dragonball = 'z';
-
-  // good
-  var items = getItems(),
-      goSportsTeam = true,
-      dragonball = 'z';
-  ```
-
-- Declare unassigned variables last. This is helpful when later on you might need to assign a variable depending on one of the previous assigned variables.
-
-  ```javascript
-  // bad
-  var i, len, dragonball,
-      items = getItems(),
-      goSportsTeam = true;
-
-  // bad
-  var i, items = getItems(),
-      dragonball,
-      goSportsTeam = true,
-      len;
-
-  // good
-  var items = getItems(),
-      goSportsTeam = true,
-      dragonball,
-      length,
-      i;
-  ```
-
-- Assign variables at the top of their scope. This helps avoid issues with variable declaration and assignment [hoisting](#hoisting) related issues.
-
-
-  ```javascript
-  // bad
-  function() {
-    test();
-    console.log('doing stuff..');
-
-    //..other stuff..
-
-    var name = getName();
-
-    if (name === 'test') {
-      return false;
-    }
-
-    return name;
-  }
-
-  // good
-  function() {
-    var name = getName();
-
-    test();
-    console.log('doing stuff..');
-
-    //..other stuff..
-
-    if (name === 'test') {
-      return false;
-    }
-
-    return name;
-  }
-
-  // bad
-  function() {
-    var name = getName();
-
-    if (!arguments.length) {
-      return false;
-    }
-
-    return true;
-  }
-
-  // good
-  function() {
-    if (!arguments.length) {
-      return false;
-    }
-
-    var name = getName();
-
-    return true;
-  }
-  ```
+- Initialize variables at the top of their scope, preferably in a grouped block.
 
 **[[⬆]](#TOC)**
 
 
-## <a name='js-hoisting'>Hoisting</a>
-
-  - Variable declarations get hoisted to the top of their scope, their assignment does not.
-
-    ```javascript
-    // we know this wouldn't work (assuming there
-    // is no notDefined global variable)
-    function example() {
-      console.log(notDefined); // => throws a ReferenceError
-    }
-
-    // creating a variable declaration after you
-    // reference the variable will work due to
-    // variable hoisting. Note: the assignment
-    // value of `true` is not hoisted.
-    function example() {
-      console.log(declaredButNotAssigned); // => undefined
-      var declaredButNotAssigned = true;
-    }
-
-    // The interpreter is hoisting the variable
-    // declaration to the top of the scope.
-    // Which means our example could be rewritten as:
-    function example() {
-      var declaredButNotAssigned;
-      console.log(declaredButNotAssigned); // => undefined
-      declaredButNotAssigned = true;
-    }
-    ```
-
-- Anonymous function expressions hoist their variable name, but not the function assignment.
-
-    ```javascript
-    function example() {
-      console.log(anonymous); // => undefined
-
-      anonymous(); // => TypeError anonymous is not a function
-
-      var anonymous = function() {
-        console.log('anonymous function expression');
-      };
-    }
-    ```
-
-- Named function expressions hoist the variable name, not the function name or the function body.
-
-  ```javascript
-  function example() {
-    console.log(named); // => undefined
-
-    named(); // => TypeError named is not a function
-
-    superPower(); // => ReferenceError superPower is not defined
-
-    var named = function superPower() {
-      console.log('Flying');
-    };
-
-
-    // the same is true when the function name
-    // is the same as the variable name.
-    function example() {
-      console.log(named); // => undefined
-
-      named(); // => TypeError named is not a function
-
-      var named = function named() {
-        console.log('named');
-      };
-    }
-  }
-  ```
-
-- Function declarations hoist their name and the function body.
-
-  ```javascript
-  function example() {
-    superPower(); // => Flying
-
-    function superPower() {
-      console.log('Flying');
-    }
-  }
-  ```
-
-- For more information refer to one of the following:
-  - [JavaScript Scoping & Hoisting](http://www.adequatelygood.com/2010/2/JavaScript-Scoping-and-Hoisting) by [Ben Cherry](http://www.adequatelygood.com/)
-  - [JavaScript Garden - Scopes](http://bonsaiden.github.io/JavaScript-Garden/#function.scopes)
-
-    **[[⬆]](#TOC)**
-
-
 ### <a name='js-whitespace'>Whitespace</a>
-
-- Place 1 space before the leading brace.
-
-
-  ```javascript
-  // bad
-  function test(){
-    console.log('test');
-  }
-
-  // good
-  function test() {
-    console.log('test');
-  }
-
-  // bad
-  dog.set('attr',{
-    age: '1 year',
-    breed: 'Bernese Mountain Dog'
-  });
-
-  // good
-  dog.set('attr', {
-    age: '1 year',
-    breed: 'Bernese Mountain Dog'
-  });
-  ```
-
-
 - Place an empty newline at the end of the file.
 
+- Place 1 space before arrow and before the leading brace.
 
-  ```javascript
-  // bad
-  (function(global) {
-    // ...stuff...
-  })(this);
+  ```coffeescript
+    test =-> print 'test'  # bad
+
+    test = -> print 'test'  #good
   ```
 
 
-  ```javascript
-  // good
-  (function(global) {
-    // ...stuff...
-  })(this);
+- Insert one extra space before and after operators
+
+  ```coffeescript
+  foo='bar'  # bad
+
+  foo = 'bar'  # good
+
+  c = a+b  # bad
+
+  c = a + b  #good
+  ```
+
+- Insert one extra space after `,` and `:`
+
+  ```coffeescript
+  foo: [1,2,3] # bad
+
+  foo: [1, 2, 3] # good
+
+  foo:'bar'  # bad
+
+  foo: 'bar'  # good
+
+  ```
+
+
+- Avoid spaces around arguments and before a `,`
+
+  ```coffeescript
+  foo( options, 'bar' )  # bad
+  foo(options , 'bar')  # bad
+
+  foo(options, 'bar')  # good
+  ```
+
+- Assignments should be vertically aligned
+
+  ```coffeescript
+  # bad
+  a = 'once'
+  little = 'little'
+  bird = 'bird'
+  told = 'told'
+  me = 'me'
+
+  # good
+  a      = 'once'
+  little = 'little'
+  bird   = 'bird'
+  told   = 'told'
+  me     = 'me'
   ```
 
 - Use indentation when making long method chains.
 
-  ```javascript
-  // bad
-  $('#items').find('.selected').highlight().end().find('.open').updateCount();
+  ```coffeescript
+  # bad
+  $('#items').find('.selected').highlight().end().find('.open').updateCount()
 
-  // good
+  # good
+  $('#items')
+    .find('.selected')
+    .highlight()
+    .end()
+    .find('.open')
+    .updateCount()
+
+  # also good
   $('#items')
     .find('.selected')
       .highlight()
       .end()
     .find('.open')
-      .updateCount();
-
-
-  // bad
-  var leds = stage.selectAll('.led').data(data).enter().append('svg:svg').class('led', true)
-      .attr('width',  (radius + margin) * 2).append('svg:g')
-      .attr('transform', 'translate(' + (radius + margin) + ',' + (radius + margin) + ')')
-      .call(tron.led);
-
-  // good
-  var leds = stage.selectAll('.led')
-      .data(data)
-    .enter().append('svg:svg')
-      .class('led', true)
-      .attr('width',  (radius + margin) * 2)
-    .append('svg:g')
-      .attr('transform', 'translate(' + (radius + margin) + ',' + (radius + margin) + ')')
-      .call(tron.led);
-  ```
-
-- Insert one extra space before and after operators
-
-  ```javascript
-  //bad
-  foo = 'bar';
-
-  //bad
-  c = a+b;
-
-  //good
-  c = a + b;
-  ```
-
-- Do not include extra spaces around arguments
-
-  ```javascript
-  //bad
-  foo( options );
-
-  //good
-  foo(options)
-  ```
-
-- Assignments should be vertically aligned
-
-  ```javascript
-  //bad
-  var a = 'once',
-      little = 'little',
-      bird = 'bird',
-      told = 'told',
-      me = 'me';
-
-  //good
-  var a      = 'once',
-      little = 'little',
-      bird   = 'bird',
-      told   = 'told',
-      me     = 'me';
-
-  //you may also leave an empty line after var
-  // like (easier to use with editor alignment plugins)
-  var
-      a      = 'once',
-      little = 'little',
-      bird   = 'bird',
-      told   = 'told',
-      me     = 'me';
-    ```
-
-  **[[⬆]](#TOC)**
-
-### <a name='js-semicolons'>Semicolons</a>
-
-- **Yup.**
-
-  No reason to make assumptions about [ASI](http://es5.github.io/#x7.9)
-
-
-  [read more](http://benalman.com/news/2013/01/advice-javascript-semicolon-haters/)
-
-  ```javascript
-  // bad
-  (function() {
-    var name = 'Skywalker'
-    return name
-  })()
-
-  // good
-  (function() {
-    var name = 'Skywalker';
-    return name;
-  })();
-
-  // good
-  ;(function() {
-    var name = 'Skywalker';
-    return name;
-  })();
+      .updateCount()
   ```
 
   **[[⬆]](#TOC)**
-
 
 
 
 ### <a name='js-type-coercion'>Type Casting & Coercion</a>
 
+- Use `parseInt` for integers and always with a radix for type casting.
+  If for whatever reason you are doing something wild and `parseInt` is your bottleneck and need to use Bitshift for [performance reasons](http://jsperf.com/coercion-vs-casting/3), leave a comment explaining why and what you're doing.
 
-- Perform type coercion at the beginning of the statement.
+  ```coffeescript
+  inputValue = '4'
 
 
-* Strings:
+  # bad
+  val = parseInt inputValue
 
-  ```javascript
-  //  => this.reviewScore = 9;
+  # good
+  val = parseInt(inputValue, 10)
 
-  // bad
-  var totalScore = this.reviewScore + '';
-
-  // good
-  var totalScore = '' + this.reviewScore;
-
-  // bad
-  var totalScore = '' + this.reviewScore + ' total score';
-
-  // good
-  var totalScore = this.reviewScore + ' total score';
-  ```
-
-- Use `parseInt` for Numbers and always with a radix for type casting.
-  - If for whatever reason you are doing something wild and `parseInt` is your bottleneck and need to use Bitshift for [performance reasons](http://jsperf.com/coercion-vs-casting/3), leave a comment explaining why and what you're doing.
-
-  ```javascript
-  var inputValue = '4';
-
-  // bad
-  var val = new Number(inputValue);
-
-  // bad
-  var val = +inputValue;
-
-  // bad
-  var val = inputValue >> 0;
-
-  // bad
-  var val = parseInt(inputValue);
-
-  // good
-  var val = Number(inputValue);
-
-  // good
-  var val = parseInt(inputValue, 10);
-
-  // good
-  /**
-   * parseInt was the reason my code was slow.
-   * Bitshifting the String to coerce it to a
-   * Number made it a lot faster.
-   */
-  var val = inputValue >> 0;
-
-  //also good
-  var val = ~~inputValue;
+  # good
+  val = ~~inputValue
   ```
 
 - Booleans:
 
-  ```javascript
-  var age = 0;
+  ```coffeescript
+  age = 0
 
-  // bad
-  var hasAge = new Boolean(age);
+  # bad
+  hasAge = Boolean age
 
-  // good
-  var hasAge = Boolean(age);
+  # good
+  hasAge = !!age
 
-  // good
-  var hasAge = !!age;
-
-  //also good
-  var hasAge = age ? true : false;
-    ```
+  # also good
+  # this is coffee's ternary operator equivalent
+  hasAge = if age then true else false
+  ```
 
   **[[⬆]](#TOC)**
 
-### <a name='js-jquery'>jQuery</a>
+### <a name='js-jquery'>DOM Manipulation</a>
+- You should be able to tell a presentational class from a functional class
 
-- Prefix jQuery object variables with a `$`.
+```coffeescript
+  $my_carousel = $('.carousel')  # bad
 
-  ```javascript
-  // bad
-  var sidebar = $('.sidebar');
+  $my_carousel = $('.js-carousel')  # good
 
-  // good
-  var $sidebar = $('.sidebar');
+```
+
+- Do not base your code on assumptions about DOM hierarchy/state.
+
+
+- Cache DOM lookups.
+
+  ```coffeescript
+  # bad
+  setSidebar = ->
+    $('.sidebar').hide()
+    # ...stuff...
+    $('.sidebar').css({'background-color': 'pink'})
+
+
+  # good
+  setSidebar = ->
+    $sidebar = $('.sidebar')
+    $sidebar.hide()
+    # ...stuff...
+    $sidebar.css({'background-color': 'pink'})
   ```
 
-- Cache jQuery lookups.
-
-  ```javascript
-  // bad
-  function setSidebar() {
-    $('.sidebar').hide();
-
-    // ...stuff...
-
-    $('.sidebar').css({
-      'background-color': 'pink'
-    });
-  }
-
-  // good
-  function setSidebar() {
-    var $sidebar = $('.sidebar');
-    $sidebar.hide();
-
-    // ...stuff...
-
-    $sidebar.css({
-      'background-color': 'pink'
-    });
-  }
-  ```
-
-- Scope your DOM queries properly
+- Care for performance when writing your DOM queries.
   Try make the selector engine use [querySelectorAll](https://developer.mozilla.org/en-US/docs/Web/API/Document.querySelectorAll)
 
   also good read: [w3c selectors-api](http://www.w3.org/TR/selectors-api/)
 
-  ```javascript
-  // bad
-  // it translates to $()
-  $('.sidebar', 'ul').hide();
+  ```coffeescript
+  # slow
+  # internally uses $.sibling to find nodes following
+  # other nodes in the same tree.
+  $('.sidebar').children('ul').hide()
 
-  //bad
-  // internally uses $.sibling to find nodes following
-  // other nodes in the same tree.
-  $('.sidebar').children('ul').hide();
-
-  // good
-  $('.sidebar').find('ul').hide();
-
-
-  // good
-  // uses
-  $('.sidebar ul').hide();
-
-  // good
-  $('.sidebar > ul').hide();
+  # faster
+  $('.sidebar').find('ul').hide()
   ```
 
   **[[⬆]](#TOC)**
-
-
-### <a name='accessors'>Accessors</a>
-
-- Accessor functions for properties are not required
-  - If you do make accessor functions use getVal() and setVal('hello')
-
-  ```javascript
-  // bad
-  dragon.age();
-
-  // good
-  dragon.getAge();
-
-  // bad
-  dragon.age(25);
-
-  // good
-  dragon.setAge(25);
-  ```
-
-- If the property is a boolean, use isVal() or hasVal()
-
-  ```javascript
-  // bad
-  if (!dragon.age()) {
-    return false;
-  }
-
-  // good
-  if (!dragon.hasAge()) {
-    return false;
-  }
-  ```
-
-- It's advised to create get() and set() functions, but be consistent.
-
-  ```javascript
-  function Jedi(options) {
-    options || (options = {});
-    var lightsaber = options.lightsaber || 'blue';
-    this.set('lightsaber', lightsaber);
-  }
-
-  Jedi.prototype.set = function(key, val) {
-    this[key] = val;
-  };
-
-  Jedi.prototype.get = function(key) {
-    return this[key];
-  };
-  ```
-
-
-- Methods can return `this` to help with method chaining.
-
-  ```javascript
-  // bad
-  Jedi.prototype.jump = function() {
-    this.jumping = true;
-    return true;
-  };
-
-  Jedi.prototype.setHeight = function(height) {
-    this.height = height;
-  };
-
-  var luke = new Jedi();
-  luke.jump(); // => true
-  luke.setHeight(20) // => undefined
-
-  // good
-  Jedi.prototype.jump = function() {
-    this.jumping = true;
-    return this;
-  };
-
-  Jedi.prototype.setHeight = function(height) {
-    this.height = height;
-    return this;
-  };
-
-  var luke = new Jedi();
-
-  luke.jump()
-    .setHeight(20);
-  ```
-
-
-**[[⬆]](#TOC)**
 
 
 ## <a name='tools'>Tools</a>
