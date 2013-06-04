@@ -410,12 +410,15 @@ return 'oh no!' if 'ie6'
 
 ### <a name='js-jquery'>Common Pitfalls</a>
 - Aliases
-  
+
 Have a look at the [full list of coffeescript aliases](http://coffeescript.org/#operators)
 
 Some of the above are notorious for causing comfusion to coffeeScript newcomers.
-We advise to avoid `==` and use `in` with caution.
-Also prefer `@` to `this.`
+We advise the following:
+
+ - Avoid `==` as it compiles to '===' and that may be unwanted
+
+ - Prefer `@` to `this`
 
   **[[⬆]](#TOC)**
 
