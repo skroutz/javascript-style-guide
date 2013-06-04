@@ -1,5 +1,5 @@
 ## <a name='TOC'>Table of Contents</a>
-
+1. [About](#about)
 1. [Conventions](#conventions)
   1.[Code Conventions](#code-conventions)
   1.[Naming Conventions](#name-conventions)
@@ -13,6 +13,7 @@
   1. [Whitespace](#js-whitespace)
   1. [Type Coercion](#js-type-coercion)
   1. [DOM Manipulation](#js-jquery)
+  1. [Common pitfalls](#js-pitfalls)
 
 1. [Tools](#tools)
   1. [linting](#linting)
@@ -31,6 +32,13 @@
   1. [Compatibility](#compatibility)
   1. [Performance](#performance)
 
+## <a name='about'>About</a>
+
+  * 80% of the lifetime cost of a piece of software goes to maintenance.
+
+  * Hardly any software is maintained for its whole life by the original author.
+
+  * Code conventions improve the readability of the software, allowing engineers to understand new code more quickly and thoroughly.
 
 ## <a name='conventions'>Conventions</a>
 
@@ -148,6 +156,16 @@
 
     default_food = options['default']
     ```
+
+- Either add commas or don't. Please do not mix both styles.
+
+  ```coffeescript
+  #bad bad bad
+  luke =
+    jedi:  true,  # comma
+    age:   28     # no comma
+    human: true
+  ```
 
 **[[⬆]](#TOC)**
 
@@ -390,6 +408,17 @@ return 'oh no!' if 'ie6'
 
   **[[⬆]](#TOC)**
 
+### <a name='js-jquery'>Common Pitfalls</a>
+- Aliases
+  
+Have a look at the [full list of coffeescript aliases](http://coffeescript.org/#operators)
+
+Some of the above are notorious for causing comfusion to coffeeScript newcomers.
+We advise to avoid `==` and use `in` with caution.
+Also prefer `@` to `this.`
+
+  **[[⬆]](#TOC)**
+
 
 ## <a name='tools'>Tools</a>
 ### Editors
@@ -445,6 +474,10 @@ In your `.vimrc` insert:
 
 - Firebug ([download](http://getfirebug.com/))
 
+- Regular Expressions
+They are a programmers best friend. Use them at will.
+Debug them with [debuggex](http://www.debuggex.com/)
+
 **[[⬆]](#TOC)**
 
 ## <a name='resources'>Resources</a>
@@ -460,7 +493,6 @@ In your `.vimrc` insert:
 ### <a name='styleguides'>Inspiring Styleguides</a>
 
 * [github](https://github.com/styleguide/javascript)
-* [jQuery](http://contribute.jquery.org/style-guide/js/?rdfrom=http%3A%2F%2Fdocs.jquery.com%2Fmw%2Findex.php%3Ftitle%3DJQuery_Core_Style_Guidelines%26redirect%3Dno)
 * [airbnb](https://github.com/airbnb/javascript)
 * [idiomatic](https://github.com/rwldrn/idiomatic.js/)
 
