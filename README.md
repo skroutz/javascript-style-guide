@@ -172,6 +172,34 @@
 
 ### <a name='js-functions'>Functions</a>
 
+- Do not use parentheses when declaring functions that take no arguments
+
+```coffeescript
+foo = ()->  # bad
+
+foo = ->   # good
+```
+
+- Function call parentheses should be omited or included with respect to readability and clarity
+Some good examples:
+
+```coffeescript
+foo 4
+
+foo(4).bar(5)
+
+foo.getSize(5, 6) / foo.getSize(6, 5)
+
+```
+
+- Avoid the 'function grouping style'
+
+```coffeescript
+(foo 4).bar 8  # bad
+
+foo(4).bar 8   # good
+```
+
 - Avoid declaring functions inside loops. The reasons have to do with performance
 
 ```coffeescript
@@ -416,9 +444,31 @@ Have a look at the [full list of coffeescript aliases](http://coffeescript.org/#
 Some of the above are notorious for causing comfusion to coffeeScript newcomers.
 We advise the following:
 
- - Avoid `==` as it compiles to '===' and that may be unwanted
+ - Avoid `==` and `!=` as they compile to `===` and `!==` that may be confusing/unwanted.
 
  - Prefer `@` to `this`
+
+ - Use fat arrows `=>` in a function definition when you need to bind to the function the current context `this`.
+
+ - Do not confuse `?` syntax with JS ternary assignments. Ternary statement in coffee is:
+
+ ```coffeescript
+  my_state = if 6 then "go!" else "work!"
+ ```
+
+ - Use coffeescript existantial operator `?` for existance checking. It returns `true` unless a variable is `null` or `undefined`.
+ Example use cases:
+
+ ```coffeescript
+ state = job_title ? "Unemployed"
+ ```
+
+
+ ```coffeescript
+  zip = location?.address?.zipcode  # Avoid throwing typeError in chaining
+ ```
+ [Read more about this](http://coffeescript.org/#operators)
+
 
   **[[⬆]](#TOC)**
 
