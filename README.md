@@ -1,8 +1,8 @@
 ## <a name='TOC'>Table of Contents</a>
 1. [About](#about)
 1. [Conventions](#conventions)
-  1.[Code Conventions](#code-conventions)
-  1.[Naming Conventions](#name-conventions)
+  1. [Code Conventions](#code-conventions)
+  1. [Naming Conventions](#name-conventions)
 
 1. [CoffeeScript Style](#coffeescript)
   1. [Literals](#js-literals)
@@ -62,7 +62,7 @@
 
   * Use **leading underscores** only for variables and methods that are intended to be "private".
 
-  * Use CAPS for constants.
+  * Use **CAPS** for constants.
 
   * Prefix jQuery object variables with a `$`.
 
@@ -106,7 +106,7 @@
     console.log "Hello #{name}!"  # good
   ```
 
-  - Use single quotes for strings (when not interpolating)
+  - Use single quotes for strings when not interpolating
 
   ```coffescript
     name = "Bob Parr" # bad
@@ -128,7 +128,7 @@
                   """
   ```
 
-  [Read more about this](http://coffeescript.org/#strings).
+  [Read more about these](http://coffeescript.org/#strings).
 
 **[[⬆]](#TOC)**
 
@@ -262,7 +262,7 @@ return 'oh no!' if 'ie6'
 ### <a name='js-whitespace'>Whitespace</a>
 - Place an empty newline at the end of the file.
 
-- Place 1 space before arrow and before the leading brace.
+- Place 1 space before arrows
 
   ```coffeescript
     test =-> print 'test'  # bad
@@ -548,6 +548,7 @@ Debug them with [debuggex](http://www.debuggex.com/)
 * [github](https://github.com/styleguide/javascript)
 * [airbnb](https://github.com/airbnb/javascript)
 * [idiomatic](https://github.com/rwldrn/idiomatic.js/)
+* [polarmobile CoffeeScript Style Guide](https://github.com/polarmobile/coffeescript-style-guide)
 
 - [Naming this in nested functions](https://gist.github.com/4135065) - Christian Johansen
 - [Conditional Callbacks](https://github.com/airbnb/javascript/issues/52)
