@@ -506,7 +506,7 @@ In your `.vimrc` insert:
 
 #### Linting
 - [jsHint](http://www.jshint.com/)
-- [coffeLint](http://www.coffeelint.org/)
+- [coffeeLint](http://www.coffeelint.org/)
 
 #### <a name='debugging'>Debugging</a>
 - Chrome Dev Tools
@@ -530,6 +530,12 @@ In your `.vimrc` insert:
 - Regular Expressions
 They are a programmers best friend. Use them at will.
 Debug them with [debuggex](http://www.debuggex.com/)
+
+- LiveReload
+Apply changes in js, styles without refreshing
+[extension](https://chrome.google.com/webstore/detail/livereload/jnihajbhpnppcggbcgedagnkighmdlei)
+[gem](https://github.com/guard/guard-livereload)
+
 
 **[[⬆]](#TOC)**
 
