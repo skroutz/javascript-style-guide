@@ -163,15 +163,15 @@
 
   - Do not use parentheses when declaring functions that take no arguments.
 
-  ```coffeescript
-  # bad
-  foo = ()->
-    console.log('aha!')
+```coffeescript
+# bad
+foo = ()->
+  console.log('aha!')
 
-  # good
-  foo = ->
-    console.log('aha!')
-  ```
+# good
+foo = ->
+  console.log('aha!')
+```
 
   - Parentheses in function/method calls should be omitted or included with respect to readability and clarity. Some good examples:
 
@@ -181,7 +181,6 @@
   foo(4).bar(5)
 
   foo.getSize(5, 6) / foo.getSize(6, 5)
-
   ```
 
   - Avoid the "function grouping" style:
