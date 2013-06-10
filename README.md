@@ -72,7 +72,7 @@
   ```coffeescript
   sidebar = $('.sidebar') # bad
 
-  $sidebar = $('.sidebar') #good
+  $sidebar = $('.sidebar') # good
   ```
 
 **[[⬆]](#TOC)**
@@ -199,13 +199,13 @@
   for i in [1..100]
     doSomething = ->
       console.log(i)
-
+  
     doSomething()
-
+  
   # good
   doSomething = (i)->
     console.log(i)
-
+  
   for i in [1..100]
     doSomething(i)
   ```
@@ -438,7 +438,6 @@
     $('.sidebar').hide()
     # ...stuff...
     $('.sidebar').css({'background-color': 'pink'})
-
 
   # good
   setSidebar = ->
