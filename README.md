@@ -357,9 +357,7 @@
 
   - Do not write comments to state the obvious.
 
-  - Inline comments should be placed exactly above the code they document, unless they are sufficiently short and can be placed on the same line.
-
-  - Inline comments should start with a capitalized word (unless the first word is variable or method name).
+  - Short comments should be placed exactly above the code they document, unless they are short enough to be placed on the same line (inline comment).
 
 ### <a name='js-block'>Block comments</a>
 
