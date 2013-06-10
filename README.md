@@ -11,6 +11,9 @@
   1. [Functions](#js-functions)
   1. [Variables](#js-variables)
   1. [Whitespace](#js-whitespace)
+  1. [Comments](#js-comments)
+    1. [Inline Comments](#js-inline)
+    1. [Block Comments](#js-block)
   1. [Type Coercion](#js-type-coercion)
   1. [DOM Manipulation](#js-jquery)
   1. [Common pitfalls](#js-pitfalls)
@@ -334,6 +337,40 @@
   **[[⬆]](#TOC)**
 
 
+### <a name='js-comments'>Comments</a>
+- When modifying code, update also the corresponding comment. (Ideally, improve the code to obviate the need for the comment, and delete the comment entirely.)
+
+- Avoid using CAPS when writing comments unless writing annotations such as `TODO`, `FIXME`, etc.
+
+### <a name='js-inline'>Inline comments</a>
+- Do not write comments to state the obvious.
+
+- Inline comments should be placed exactly above the code describing, unless they are suffeciently short and can be placed on the same line.
+
+- Inline comments should start with a capitalized word (unless first word is variable, method, etc name)
+
+### <a name='js-block'>Block comments</a>
+ - Block comments should also be placed above above the code describing.
+
+ - Block comments should be written using in each line a `#` following a `space`. Example:
+
+  ```coffeescript
+  # This is a block comment. This comment is describing the code below.
+  # One line was not enough to state the case so i decided that two lines are ok.
+  ```
+
+- Block comments' style using triple `#` is also accepted and
+  prefered when writing documentation. Example:
+
+  ```coffeescript
+  ###
+  This is a block comment. This comment is documenting the module in this file.
+  This style helps the maintainance of documentation.
+  I also want this comment to be passed to the generated javascript.
+  ###
+  ```
+
+**[[⬆]](#TOC)**
 
 ### <a name='js-type-coercion'>Type Casting & Coercion</a>
 
