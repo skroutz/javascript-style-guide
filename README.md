@@ -198,16 +198,16 @@
   # bad
   for i in [1..100]
     doSomething = ->
-      # code that does something here..
+      console.log(i)
 
     doSomething()
 
   # good
-  doSomething = ->
-    # code that does something here..
+  doSomething = (i)->
+    console.log(i)
 
   for i in [1..100]
-    doSomething()
+    doSomething(i)
   ```
 
   - Avoid explicit "return" statements unless it's for an "early return". For example:
@@ -241,59 +241,61 @@
 
 ### <a name='js-variables'>Variables</a>
 
-- Initialize variables at the top of their scope, preferably in a grouped block.
+  - Initialize variables at the top of their scope, preferably in a grouped block.
+
+  ```coffeescript
+  # TODO add example
+  ```
 
 **[[⬆]](#TOC)**
 
-
 ### <a name='js-whitespace'>Whitespace</a>
-- Place an empty newline at the end of the file.
 
-- Place 1 space before arrows
+  - Place an empty newline at the end of the file (most modern editors, e.g. Vim, will do this automatically for you).
+
+  - Place one space before arrows:
+
+    ```coffeescript
+    test =-> print 'test' # bad
+
+    test = -> print 'test' # good
+    ```
+
+  - Insert an extra space before and after operators:
 
   ```coffeescript
-    test =-> print 'test'  # bad
+  foo='bar' # bad
 
-    test = -> print 'test'  #good
+  foo = 'bar' # good
+
+  c = a+b # bad
+
+  c = a + b # good
   ```
 
-
-- Insert one extra space before and after operators
-
-  ```coffeescript
-  foo='bar'  # bad
-
-  foo = 'bar'  # good
-
-  c = a+b  # bad
-
-  c = a + b  #good
-  ```
-
-- Insert one extra space after `,` and `:`
+  - Insert an extra space after `,` and `:`:
 
   ```coffeescript
   foo: [1,2,3] # bad
 
   foo: [1, 2, 3] # good
 
-  foo:'bar'  # bad
+  foo:'bar' # bad
 
-  foo: 'bar'  # good
+  foo: 'bar' # good
 
   ```
 
-
-- Avoid spaces around arguments and before a `,`
+  - Avoid spaces around arguments and before a comma `,`:
 
   ```coffeescript
-  foo( options, 'bar' )  # bad
-  foo(options , 'bar')  # bad
+  foo( options, 'bar' ) # bad
+  foo(options , 'bar') # bad
 
-  foo(options, 'bar')  # good
+  foo(options, 'bar') # good
   ```
 
-- Assignments should be vertically aligned
+  - Assignments should be vertically aligned unless they differ a lot in length or they are less than 3:
 
   ```coffeescript
   # bad
@@ -309,9 +311,18 @@
   bird   = 'bird'
   told   = 'told'
   me     = 'me'
+
+  # bad
+  a                        = 'once'
+  little                   = 'little'
+  bird_told_me_some_things = 'foo'
+
+  # bad (this is too much)
+  a      = 'once'
+  little = 'little'
   ```
 
-- Use indentation when making long method chains.
+  - Break long method chains into many lines, keeping the dot for the start of each line:
 
   ```coffeescript
   # bad
@@ -325,7 +336,7 @@
     .find('.open')
     .updateCount()
 
-  # also good
+  # even better
   $('#items')
     .find('.selected')
       .highlight()
@@ -334,39 +345,41 @@
       .updateCount()
   ```
 
-  **[[⬆]](#TOC)**
-
+**[[⬆]](#TOC)**
 
 ### <a name='js-comments'>Comments</a>
-- When modifying code, update also the corresponding comment. (Ideally, improve the code to obviate the need for the comment, and delete the comment entirely.)
 
-- Avoid using CAPS when writing comments unless writing annotations such as `TODO`, `FIXME`, etc.
+  - When modifying code, update the corresponding comment. (Ideally, improve the code to obviate the need for the comment, and delete the comment entirely.)
+
+  - Do not write comments in CAPS (`TODO`, `FIXME`, etc are notable exceptions).
 
 ### <a name='js-inline'>Inline comments</a>
-- Do not write comments to state the obvious.
 
-- Inline comments should be placed exactly above the code describing, unless they are suffeciently short and can be placed on the same line.
+  - Do not write comments to state the obvious.
 
-- Inline comments should start with a capitalized word (unless first word is variable, method, etc name)
+  - Inline comments should be placed exactly above the code they document, unless they are sufficiently short and can be placed on the same line.
+
+  - Inline comments should start with a capitalized word (unless the first word is variable or method name).
 
 ### <a name='js-block'>Block comments</a>
- - Block comments should also be placed above above the code describing.
 
- - Block comments should be written using in each line a `#` following a `space`. Example:
+  - Block comments should be placed above the code they document.
+
+  - Block comments should be written using in each line a `#` following a `space`. Example:
 
   ```coffeescript
-  # This is a block comment. This comment is describing the code below.
-  # One line was not enough to state the case so i decided that two lines are ok.
+  # This is a block comment. This comment documents the code below.
+  # One line was not enough to state the case, so I decided that two lines are OK.
   ```
 
-- Block comments' style using triple `#` is also accepted and
-  prefered when writing documentation. Example:
+  - You are free to write block comments using either the triple `#` syntax (`###`) or by prefixing each line with a `#`:
 
   ```coffeescript
   ###
   This is a block comment. This comment is documenting the module in this file.
   This style helps the maintainance of documentation.
-  I also want this comment to be passed to the generated javascript.
+  Each time I want to add or remove a line, I don't have to mess with any `#`.
+  I also want this comment to be passed to the generated JavaScript.
   ###
   ```
 
@@ -374,12 +387,10 @@
 
 ### <a name='js-type-coercion'>Type Casting & Coercion</a>
 
-- Use `parseInt` for integers and always with a radix for type casting.
-  If for whatever reason you are doing something wild and `parseInt` is your bottleneck and need to use Bitshift for [performance reasons](http://jsperf.com/coercion-vs-casting/3), leave a comment explaining why and what you're doing.
+  - Use `parseInt` with a radix for type casting to integers. If, for whatever reason, you are doing something wild and `parseInt` is your bottleneck and need to use bitshift for [performance reasons](http://jsperf.com/coercion-vs-casting/3), leave a comment explaining why and what you're doing.
 
   ```coffeescript
   inputValue = '4'
-
 
   # bad
   val = parseInt inputValue
@@ -388,10 +399,10 @@
   val = parseInt(inputValue, 10)
 
   # good
-  val = ~~inputValue
+  val = ~~inputValue # comment here
   ```
 
-- Booleans:
+  - Converting to a boolean:
 
   ```coffeescript
   age = 0
@@ -402,27 +413,26 @@
   # good
   hasAge = !!age
 
-  # also good
-  # this is coffee's ternary operator equivalent
+  # also good (ternary operator equivalent)
   hasAge = if age then true else false
   ```
 
-  **[[⬆]](#TOC)**
+**[[⬆]](#TOC)**
 
 ### <a name='js-jquery'>DOM Manipulation</a>
-- You should be able to tell a presentational class from a functional class
 
-```coffeescript
-  $my_carousel = $('.carousel')  # bad
+  - You should be able to tell a presentational class attribute from a functional one:
 
-  $my_carousel = $('.js-carousel')  # good
+  ```coffeescript
+    $my_carousel = $('.carousel') # bad
 
-```
+    $my_carousel = $('.js-carousel') # good
 
-- Do not base your code on assumptions about DOM hierarchy/state.
+  ```
 
+  - Assumption is the mother of all fckups. Do not code with assumptions about DOM hierarchy/state.
 
-- Cache DOM lookups.
+  - Cache DOM lookups:
 
   ```coffeescript
   # bad
@@ -440,81 +450,56 @@
     $sidebar.css({'background-color': 'pink'})
   ```
 
-- Care for performance when writing your DOM queries.
-  Try make the selector engine use [querySelectorAll](https://developer.mozilla.org/en-US/docs/Web/API/Document.querySelectorAll)
-
-  also good read: [w3c selectors-api](http://www.w3.org/TR/selectors-api/)
+  - Think about performance when writing your DOM queries. Try to make the selector engine use the browser's [querySelectorAll method](https://developer.mozilla.org/en-US/docs/Web/API/Document.querySelectorAll). Also a good read: [w3c selectors-api](http://www.w3.org/TR/selectors-api/)
 
   ```coffeescript
   # slow
-  # internally uses $.sibling to find nodes following
-  # other nodes in the same tree.
+  # uses $.sibling internally to find nodes following other nodes in the same tree
   $('.sidebar').children('ul').hide()
 
   # faster
   $('.sidebar').find('ul').hide()
   ```
 
-  **[[⬆]](#TOC)**
+**[[⬆]](#TOC)**
 
 ### <a name='js-jquery'>Common Pitfalls</a>
-- Aliases
 
-Have a look at the [full list of coffeescript aliases](http://coffeescript.org/#operators)
+  - Have a look at the [full list of CoffeeScript aliases](http://coffeescript.org/#operators). Some are notorious for causing confusion to CoffeeScript n00bs.
 
-Some of the above are notorious for causing comfusion to coffeeScript newcomers.
-We advise the following:
+  - Avoid `==` and `!=` as they compile to `===` and `!==` that may be confusing/unwanted. Prefer `is` and `isnt` instead.
 
- - Avoid `==` and `!=` as they compile to `===` and `!==` that may be confusing/unwanted.
+  - Prefer `@` to `this`.
 
- - Prefer `@` to `this`
+  - Use fat arrows `=>` in a function definition when you need to bind to the function the current context (`this`).
 
- - Use fat arrows `=>` in a function definition when you need to bind to the function the current context `this`.
+  - Do not confuse the `?` syntax sugar with JS ternary operators. The ternary operator in CoffeeScript is:
 
- - Do not confuse `?` syntax with JS ternary assignments. Ternary statement in coffee is:
+  ```coffeescript
+  my_state = if 6 then 'go!' else 'work!'
+  ```
 
- ```coffeescript
-  my_state = if 6 then "go!" else "work!"
- ```
+  - Use CoffeeScript's existential operator `?` for existence checking. It returns `true` unless a variable is `null` or `undefined`. Example use cases:
 
- - Use coffeescript existantial operator `?` for existance checking. It returns `true` unless a variable is `null` or `undefined`.
- Example use cases:
+  ```coffeescript
+  state = job_title ? 'unemployed' # will be 'unemployed' if job_title is null or undefined
 
- ```coffeescript
- state = job_title ? "Unemployed"
- ```
+  zip = location?.address?.zipcode  # avoid throwing TypeError in chaining
+  ```
 
+[Read more](http://coffeescript.org/#operators) about this.
 
- ```coffeescript
-  zip = location?.address?.zipcode  # Avoid throwing typeError in chaining
- ```
- [Read more about this](http://coffeescript.org/#operators)
-
-
-  **[[⬆]](#TOC)**
-
+**[[⬆]](#TOC)**
 
 ## <a name='tools'>Tools</a>
+
 ### Editors
-#### <a name='sublime'>Sublime Text</a>
-Set soft-tabs, rulers according to [Conventions](#conventions)
 
-Go to `Preferences -> Settings - User` and insert:
+#### <a name='vim'>Vim</a>
 
-    "translate_tabs_to_spaces": true,
-    "tab_size": 2,
-    "rulers": [ 80, 90 ]
+Set soft-tabs and rulers according to [conventions](#conventions).
 
-##### Essential plugins
-- [emmet](https://github.com/sergeche/emmet-sublime)
-- [alignment](http://wbond.net/sublime_packages/alignment)
-- [jshint](https://github.com/uipoet/sublime-jshint)
-- [sublime-better-coffeescript](https://github.com/aponxi/sublime-better-coffeescript)
-
-#### <a name='vim'>vim</a>
-Set soft-tabs, rulers according to [Conventions](#conventions)
-
-In your `.vimrc` insert:
+In your `~/.vimrc` add:
 
     set expandtab
     set tabstop=2
@@ -522,41 +507,56 @@ In your `.vimrc` insert:
     set smarttab
     set colorcolumn=80,90
 
+#### <a name='sublime'>Sublime Text</a>
+
+Set soft-tabs and rulers according to [conventions](#conventions).
+
+Go to `Preferences -> Settings - User` and add:
+
+    "translate_tabs_to_spaces": true,
+    "tab_size": 2,
+    "rulers": [ 80, 90 ]
+
 ##### Essential Plugins
+
+For Vim:
+
 - [synctastic](https://github.com/scrooloose/syntastic)
 
-#### Linting
+For Sublime:
+
+- [emmet](https://github.com/sergeche/emmet-sublime)
+- [alignment](http://wbond.net/sublime_packages/alignment)
+- [jshint](https://github.com/uipoet/sublime-jshint)
+- [sublime-better-coffeescript](https://github.com/aponxi/sublime-better-coffeescript)
+
+#### Lint tools
+
 - [jsHint](http://www.jshint.com/)
-- [coffeeLint](http://www.coffeelint.org/)
+- [CoffeeLint](http://www.coffeelint.org/)
 
 #### <a name='debugging'>Debugging</a>
-- Chrome Dev Tools
 
-  - Mobile
+  - Chrome Dev Tools
 
-    Connect an Android device via USB to the desktop & Debug code executing on the device with the Chrome Developer Tools
+    - Mobile
 
-  ```
-  $> adb forward tcp:9222 localabstract:chrome_devtools_remote
-  $> chrome.exe --remote-debugging-port=9222
-  ```
+      Connect an Android device via USB to the desktop. Enable debug code execution on the device with the Chrome Developer Tools.
 
-  **Resources**
-  - [official guide](https://developers.google.com/chrome-developer-tools/)
-  - [codeschool course](http://discover-devtools.codeschool.com/)
+      ```
+      $> adb forward tcp:9222 localabstract:chrome_devtools_remote
+      $> chrome.exe --remote-debugging-port=9222
+      ```
 
+    - [Official Guide](https://developers.google.com/chrome-developer-tools/)
 
-- Firebug ([download](http://getfirebug.com/))
+    - [Code School Course](http://discover-devtools.codeschool.com/)
 
-- Regular Expressions
-They are a programmers best friend. Use them at will.
-Debug them with [debuggex](http://www.debuggex.com/)
+  - Firebug ([download](http://getfirebug.com/))
 
-- LiveReload
-Apply changes in js, styles without refreshing
-[extension](https://chrome.google.com/webstore/detail/livereload/jnihajbhpnppcggbcgedagnkighmdlei)
-[gem](https://github.com/guard/guard-livereload)
+  - Regular Expressions. They are a programmer's best and worst friend. Debug with [debuggex](http://www.debuggex.com/).
 
+  - LiveReload. Apply changes in JS, styles without refreshing: [extension](https://chrome.google.com/webstore/detail/livereload/jnihajbhpnppcggbcgedagnkighmdlei) [gem](https://github.com/guard/guard-livereload)
 
 **[[⬆]](#TOC)**
 
@@ -564,36 +564,36 @@ Apply changes in js, styles without refreshing
 
 ### <a name='docs'>Docs & Guides</a>
 
-- [mdn](https://developer.mozilla.org/en-US/docs/Web/JavaScript?redirectlocale=en-US&redirectslug=JavaScript)
-- [webplatform](http://webplatform.org)
-- [w3c javaScript APIs](http://www.w3.org/standards/techs/js#w3c_all)
-- [Annotated ECMAScript 5.1](http://es5.github.com/)
-- [javaScript Garden](http://bonsaiden.github.io/JavaScript-Garden/)
+  - [MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript?redirectlocale=en-US&redirectslug=JavaScript)
+  - [WebPlatform](http://webplatform.org)
+  - [W3C JavaScript APIs](http://www.w3.org/standards/techs/js#w3c_all)
+  - [Annotated ECMAScript 5.1](http://es5.github.com/)
+  - [JavaScript Garden](http://bonsaiden.github.io/JavaScript-Garden/)
 
 ### <a name='styleguides'>Inspiring Styleguides</a>
 
-* [github](https://github.com/styleguide/javascript)
-* [airbnb](https://github.com/airbnb/javascript)
-* [idiomatic](https://github.com/rwldrn/idiomatic.js/)
-* [polarmobile CoffeeScript Style Guide](https://github.com/polarmobile/coffeescript-style-guide)
-
-- [Naming this in nested functions](https://gist.github.com/4135065) - Christian Johansen
-- [Conditional Callbacks](https://github.com/airbnb/javascript/issues/52)
+  - [Github](https://github.com/styleguide/javascript)
+  - [Airbnb](https://github.com/airbnb/javascript)
+  - [Idiomatic](https://github.com/rwldrn/idiomatic.js/)
+  - [polarmobile CoffeeScript style guide](https://github.com/polarmobile/coffeescript-style-guide)
+  - [Naming `this` in nested functions](https://gist.github.com/4135065)
+  - [Conditional callbacks](https://github.com/airbnb/javascript/issues/52)
 
 ### <a name='books'>Books</a>
+
   - JavaScript
-    - [JavaScript: The Good Parts](http://www.amazon.com/JavaScript-Good-Parts-Douglas-Crockford/dp/0596517742) - Douglas Crockford
-    - [JavaScript Patterns](http://www.amazon.com/JavaScript-Patterns-Stoyan-Stefanov/dp/0596806752) - Stoyan Stefanov
-    - [Pro JavaScript Design Patterns](http://www.amazon.com/JavaScript-Design-Patterns-Recipes-Problem-Solution/dp/159059908X)  - Ross Harmes and Dustin Diaz
-    - [High Performance Web Sites: Essential Knowledge for Front-End Engineers](http://www.amazon.com/High-Performance-Web-Sites-Essential/dp/0596529309) - Steve Souders
-    - [Maintainable JavaScript](http://www.amazon.com/Maintainable-JavaScript-Nicholas-C-Zakas/dp/1449327680) - Nicholas C. Zakas
-    - [JavaScript Web Applications](http://www.amazon.com/JavaScript-Web-Applications-Alex-MacCaw/dp/144930351X) - Alex MacCaw
-    - [The Little Book on CoffeeScript](http://arcturo.github.io/library/coffeescript/) - Alex MacCaw
-    - [Pro JavaScript Techniques](http://www.amazon.com/Pro-JavaScript-Techniques-John-Resig/dp/1590597273) - John Resig
-    - [Smashing Node.js: JavaScript Everywhere](http://www.amazon.com/Smashing-Node-js-JavaScript-Everywhere-Magazine/dp/1119962595) - Guillermo Rauch
+    - [JavaScript: The Good Parts](http://www.amazon.com/JavaScript-Good-Parts-Douglas-Crockford/dp/0596517742)
+    - [JavaScript Patterns](http://www.amazon.com/JavaScript-Patterns-Stoyan-Stefanov/dp/0596806752)
+    - [Pro JavaScript Design Patterns](http://www.amazon.com/JavaScript-Design-Patterns-Recipes-Problem-Solution/dp/159059908X)
+    - [High Performance Web Sites: Essential Knowledge for Front-End Engineers](http://www.amazon.com/High-Performance-Web-Sites-Essential/dp/0596529309)
+    - [Maintainable JavaScript](http://www.amazon.com/Maintainable-JavaScript-Nicholas-C-Zakas/dp/1449327680)
+    - [JavaScript Web Applications](http://www.amazon.com/JavaScript-Web-Applications-Alex-MacCaw/dp/144930351X)
+    - [Pro JavaScript Techniques](http://www.amazon.com/Pro-JavaScript-Techniques-John-Resig/dp/1590597273)
+    - [Smashing Node.js: JavaScript Everywhere](http://www.amazon.com/Smashing-Node-js-JavaScript-Everywhere-Magazine/dp/1119962595)
   - CoffeeScript
-    - [The little book of CoffeeScript](http://arcturo.github.io/library/coffeescript/)
-    - [CoffeeScript cookbook](http://coffeescriptcookbook.com/)
+    - [The Little Book on CoffeeScript](http://arcturo.github.io/library/coffeescript/)
+    - [CoffeeScript Cookbook](http://coffeescriptcookbook.com/)
+    - [CoffeeScript: Accelerated JavaScript Development](http://pragprog.com/book/tbcoffee/coffeescript)
 
 ### <a name='news'>News</a>
 
@@ -615,28 +615,23 @@ Apply changes in js, styles without refreshing
 
 ### <a name='podcasts'>Podcasts</a>
 
-- [shoptalk](http://shoptalkshow.com/)
-- [javaScript jabber](http://javascriptjabber.com/)
-- [yayQuery](http://yayquery.com/)
+  - [shoptalk](http://shoptalkshow.com/)
+  - [javaScript jabber](http://javascriptjabber.com/)
+  - [yayQuery](http://yayquery.com/)
 
 ### <a name='compatibility'>Compatibility</a>
 
-- [quirksmode](http://www.quirksmode.org/)
-- [caniuse](http://caniuse.com)
-- [html5please](http://html5please.com/)
-
+  - [quirksmode](http://www.quirksmode.org/)
+  - [caniuse](http://caniuse.com)
+  - [html5please](http://html5please.com/)
 
 ### <a name='performance'>Performance</a>
 
-- [Google Devs - Optimizing javaScript](https://developers.google.com/speed/articles/optimizing-javascript)
-
-- [html5rocks - v8](http://www.html5rocks.com/en/tutorials/speed/v8/)
+  - [Google Devs - Optimizing javaScript](https://developers.google.com/speed/articles/optimizing-javascript)
+  - [html5rocks - v8](http://www.html5rocks.com/en/tutorials/speed/v8/)
+  - [jsperf.com](http://jsperf.com)
+  - [benchmarkjs](http://benchmarkjs.com/)
 
 **Remember:** When in doubt, benchmark.
-
- - [jsperf.com](http://jsperf.com)
-
- - [benchmarkjs](http://benchmarkjs.com/)
-
 
 **[[⬆]](#TOC)**
