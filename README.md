@@ -1,5 +1,5 @@
 ## <a name='TOC'>Table of Contents</a>
-1. [About](#about)
+1. [Rationale](#rationale)
 1. [Conventions](#conventions)
   1. [Code Conventions](#code-conventions)
   1. [Naming Conventions](#name-conventions)
@@ -32,39 +32,39 @@
   1. [Compatibility](#compatibility)
   1. [Performance](#performance)
 
-## <a name='about'>About</a>
+## <a name='rationale'>Rationale</a>
 
-  * 80% of the lifetime cost of a piece of software goes to maintenance.
+  * 80% of the lifetime cost of software goes to maintenance.
 
   * Hardly any software is maintained for its whole life by the original author.
 
-  * Code conventions improve the readability of the software, allowing engineers to understand new code more quickly and thoroughly.
+  * Code conventions improve readability, allowing engineers to understand new code more quickly and thoroughly.
 
 ## <a name='conventions'>Conventions</a>
 
 ### <a name='code-conventions'>Code Conventions</a>
 
-  * Write new code in coffeescript.
+  * Write new code in CoffeeScript.
 
-  * Use soft-tabs with a **2 space** indent.
+  * Use soft-tabs with a **2-space** indent (this means pressing the tab key once should produce 2 space characters).
 
-  * Try to keep line length **80-90** chars maximum.
+  * Try to keep line length **80-90** characters at most.
 
-  * Do not include trailing whitespaces.
+  * Make sure you do not accidentally include trailing whitespace.
 
 ### <a name='name-conventions'>Naming Conventions</a>
 
-  * Use **CamelCaps** for classes and constructors.
+  * Use **CamelCaps** for class names and constructors.
 
-  * Use **camelCase** for functions/methods
+  * Use **camelCase** for functions/methods.
 
-  * **Underscores** are allowed for variable names only.
+  * Use **snake_case** for variable names.
 
-  * Use **leading underscores** only for variables and methods that are intended to be "private".
+  * Use a leading underscore (e.g. `_foo`) only for variables and methods that are intended to be "private".
 
   * Use **CAPS** for constants.
 
-  * Prefix jQuery object variables with a `$`.
+  * Prefix jQuery object variables with a `$`:
 
   ```coffeescript
   sidebar = $('.sidebar') # bad
@@ -78,35 +78,21 @@
 
 ### <a name='js-literals'>Literals</a>
 
-  - Prefer literals over native constructors
-
-  *The Array, Object, etc constructors are ambiguous in how they deal with their
-  paramameters and they can be overriden. Also they are shorter and linters like them.*
-
-
-  ```coffescript
-    # bad
-    Array = 5
-    arr   = new Array() # TypeError: number is not a function
-
-    # good
-    arr = []
-  ```
-
+  - Prefer literals (`arr = []`) over native constructors (`arr = new Array()`). `Array`, `Object`, etc constructors are ambiguous in how they deal with their paramameters and they can be overriden. Also, literals are shorter and lint tools like them.
 
 ### <a name='js-strings'>Strings</a>
 
-  - Use string interpolation instead of concatenation
+  - Use string interpolation instead of concatenation:
 
   ```coffescript
     name = 'Maria'
 
-    console.log "Hello " + name} + "!"  # bad
+    console.log 'Ase mas re ' + name + '!' # bad
 
-    console.log "Hello #{name}!"  # good
+    console.log "Ase mas re #{name}!" # good
   ```
 
-  - Use single quotes for strings when not interpolating
+  - Use single quotes for strings when not interpolating:
 
   ```coffescript
     name = "Bob Parr" # bad
@@ -114,27 +100,27 @@
     name = 'Bob Parr' # good
   ```
 
-  - Use block strings when it improves readability
+  - Use block strings when it improves readability:
 
   ```coffescript
-    my_message = 'Password too short!'
-    message_div = """
-                   <div class="warning_message">
-                      <p>
-                        <span>Warning:</span>
-                        #{my_message}
-                      </p>
-                   </div>
-                  """
+    my_msg = 'Password too short!'
+    msg_div = """
+              <div class="warning_message">
+                <p>
+                  <span>Warning:</span>
+                  #{my_msg}
+                </p>
+              </div>
+              """
   ```
 
-  [Read more about these](http://coffeescript.org/#strings).
+  [Read more](http://coffeescript.org/#strings) about strings.
 
 **[[⬆]](#TOC)**
 
 ### <a name='js-objects'>Objects</a>
 
-- Use **dot notation** when accessing properties.
+  - Prefer **dot notation** when accessing properties:
 
     ```coffescript
     luke =
@@ -146,21 +132,22 @@
     isJedi = luke.jedi # good
     ```
 
-- Use subscript notation `[]` when accessing properties with a variable or when
-  that property name is a reserved word.
+  - Use subscript notation `[]` when accessing properties dynamically (with a variable) or when that property name is a language keyword:
 
     ```coffescript
     options =
       'default':
         bacon: 'nomnom'
+    my_key = 'default'
 
     default_food = options['default']
+    default_food = options[my_key] # same
     ```
 
-- Either add commas or don't. Please do not mix both styles.
+  - When defining an object, either add commas in the whole block, or don't. Please do not mix both styles:
 
   ```coffeescript
-  #bad bad bad
+  # bad bad bad
   luke =
     jedi:  true,  # comma
     age:   28     # no comma
@@ -169,88 +156,85 @@
 
 **[[⬆]](#TOC)**
 
-
 ### <a name='js-functions'>Functions</a>
 
-- Do not use parentheses when declaring functions that take no arguments
+  - Do not use parentheses when declaring functions that take no arguments.
 
-```coffeescript
-foo = ()->  # bad
+  ```coffeescript
+  # bad
+  foo = ()->
+    console.log('aha!')
 
-foo = ->   # good
-```
+  # good
+  foo = ->
+    console.log('aha!')
+  ```
 
-- Function call parentheses should be omited or included with respect to readability and clarity
-Some good examples:
+  - Parentheses in function/method calls should be omitted or included with respect to readability and clarity. Some good examples:
 
-```coffeescript
-foo 4
+  ```coffeescript
+  foo 4
 
-foo(4).bar(5)
+  foo(4).bar(5)
 
-foo.getSize(5, 6) / foo.getSize(6, 5)
+  foo.getSize(5, 6) / foo.getSize(6, 5)
 
-```
+  ```
 
-- Avoid the 'function grouping style'
+  - Avoid the "function grouping" style:
 
-```coffeescript
-(foo 4).bar 8  # bad
+  ```coffeescript
+  (foo 4).bar 8 # bad
 
-foo(4).bar 8   # good
-```
+  foo(4).bar 8 # good
+  ```
 
-- Avoid declaring functions inside loops. The reasons have to do with performance
+  - Avoid creating functions inside loops since it's bad for performance:
 
-```coffeescript
-# bad
-for i in [1..100]
+  ```coffeescript
+  # bad
+  for i in [1..100]
+    doSomething = ->
+      # code that does something here..
+
+    doSomething()
+
+  # good
   doSomething = ->
     # code that does something here..
 
-  doSomething()
+  for i in [1..100]
+    doSomething()
+  ```
 
-# good
-doSomething = ->
-  # code that does something here..
+  - Avoid explicit "return" statements unless it's for an "early return". For example:
 
-for i in [1..100]
-  doSomething()
-```
+  ```coffeescript
+  browser = getBrowser()
+  return 'oh no!' if 'ie6'
 
-- Avoid explicit 'return' where not required. But use it when 'early return' required.
-Example:
+  # ...cool stuff ie6 doesn't support...
+  ```
+  - Class methods should return `this` to enable method chaining. For example:
 
-```coffeescript
-browser = getBrowser()
-return 'oh no!' if 'ie6'
+  ```coffeescript
+    Jedi = ->
+      @jumping = false
+      @yelling = false
 
-# ...cool stuff ie6 doesn't support...
-```
+    Jedi::jump = ->
+      @jumping = true
+      return this
 
+    Jedi::yell = ->
+      @yelling = true
+      return this
 
-- Class methods can return `this` to help with method chaining.
-  Example:
-
-```coffeescript
-  Jedi = ->
-    @jumping = false
-    @yelling = false
-
-  Jedi::jump = ->
-    @jumping = true
-    return this
-
-  Jedi::yell = ->
-    @yelling = true
-    return this
-
-  first = new Jedi
-  first.jump().yell()
-```
+    first = new Jedi
+    first.jump().yell()
+  ```
 
 **[[⬆]](#TOC)**
-
 
 ### <a name='js-variables'>Variables</a>
 
