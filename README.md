@@ -169,13 +169,13 @@
 * Do not use parentheses when defining functions that take no arguments:
 
   ```coffeescript
-  # bad
-  foo = () ->
-    console.log('aha!')
+    # bad
+    foo = () ->
+      console.log('aha!')
 
-  # good
-  foo = ->
-    console.log('aha!')
+    # good
+    foo = ->
+      console.log('aha!')
   ```
 
 * Parentheses in function calls may be omitted with respect to readability and clarity. Some examples:
@@ -201,19 +201,19 @@
 * Avoid creating functions inside loops since it's bad for performance:
 
   ```coffeescript
-  # bad
-  for i in [1..100]
-    doSomething = ->
+    # bad
+    for i in [1..100]
+      doSomething = ->
+        console.log(i)
+
+      doSomething()
+
+    # good
+    doSomething = (i) ->
       console.log(i)
 
-    doSomething()
-
-  # good
-  doSomething = (i) ->
-    console.log(i)
-
-  for i in [1..100]
-    doSomething(i)
+    for i in [1..100]
+      doSomething(i)
   ```
 
 * Avoid explicit `return` statements unless it's for an "early return". For example:
@@ -228,20 +228,20 @@
 * Class methods should return `this` to enable method chaining. For example:
 
   ```coffeescript
-  Jedi = ->
-    @jumping = false
-    @yelling = false
+    Jedi = ->
+      @jumping = false
+      @yelling = false
 
-  Jedi::jump = ->
-    @jumping = true
-    return this
+    Jedi::jump = ->
+      @jumping = true
+      return this
 
-  Jedi::yell = ->
-    @yelling = true
-    return this
+    Jedi::yell = ->
+      @yelling = true
+      return this
 
-  first = new Jedi
-  first.jump().yell()
+    first = new Jedi
+    first.jump().yell()
   ```
 
 ### Variables
@@ -332,24 +332,24 @@
 * Break long method chains into many lines, keeping the dot at the beginning of each line:
 
   ```coffeescript
-  # bad
-  $('#items').find('.selected').highlight().end().find('.open').updateCount()
+    # bad
+    $('#items').find('.selected').highlight().end().find('.open').updateCount()
 
-  # good
-  $('#items')
-    .find('.selected')
-    .highlight()
-    .end()
-    .find('.open')
-    .updateCount()
-
-  # even better
-  $('#items')
-    .find('.selected')
+    # good
+    $('#items')
+      .find('.selected')
       .highlight()
       .end()
-    .find('.open')
+      .find('.open')
       .updateCount()
+
+    # even better
+    $('#items')
+      .find('.selected')
+        .highlight()
+        .end()
+      .find('.open')
+        .updateCount()
   ```
 
 ### Comments
@@ -426,18 +426,18 @@
 * Cache DOM lookups:
 
   ```coffeescript
-  # bad
-  setSidebar = ->
-    $('.sidebar').hide()
-    # ...stuff...
-    $('.sidebar').css({'background-color': 'pink'})
+    # bad
+    setSidebar = ->
+      $('.sidebar').hide()
+      # ...stuff...
+      $('.sidebar').css({'background-color': 'pink'})
 
-  # good
-  setSidebar = ->
-    $sidebar = $('.sidebar')
-    $sidebar.hide()
-    # ...stuff...
-    $sidebar.css({'background-color': 'pink'})
+    # good
+    setSidebar = ->
+      $sidebar = $('.sidebar')
+      $sidebar.hide()
+      # ...stuff...
+      $sidebar.css({'background-color': 'pink'})
   ```
 
 * Think about performance when writing DOM queries. Try to make the selector engine use the browser's [querySelectorAll method](https://developer.mozilla.org/en-US/docs/Web/API/Document.querySelectorAll). Also a good read: [w3c selectors-api](http://www.w3.org/TR/selectors-api/)
