@@ -121,13 +121,13 @@
 * Prefer **dot notation** when accessing properties:
 
   ```coffeescript
-  luke =
-    jedi: true
-    age: 28
-
-  isJedi = luke['jedi'] # bad
-
-  isJedi = luke.jedi # good
+    luke =
+      jedi: true
+      age: 28
+  
+    isJedi = luke['jedi'] # bad
+  
+    isJedi = luke.jedi # good
   ```
 
 * Use subscript notation `[]` when accessing properties dynamically (with a variable) or when that property name is a language keyword:
