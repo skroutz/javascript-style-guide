@@ -133,35 +133,35 @@
 * Use subscript notation `[]` when accessing properties dynamically (with a variable) or when that property name is a language keyword:
 
   ```coffeescript
-  options =
-    'default':
-      bacon: 'nomnom'
-  my_key = 'default'
-
-  default_food = options['default']
-  default_food = options[my_key] # same
+    options =
+      'default':
+        bacon: 'nomnom'
+    my_key = 'default'
+  
+    default_food = options['default']
+    default_food = options[my_key] # same
   ```
 
 * When defining an object in many lines, do not use commas:
 
   ```coffeescript
-  # good (no commas)
-  luke =
-    jedi:  true
-    age:   28
-    human: true
-
-  # bad (commas)
-  luke =
-    jedi:  true,
-    age:   28,
-    human: true
-
-  # bad bad bad (mixed)
-  luke =
-    jedi:  true,  # comma
-    age:   28     # no comma
-    human: true
+    # good (no commas)
+    luke =
+      jedi:  true
+      age:   28
+      human: true
+  
+    # bad (commas)
+    luke =
+      jedi:  true,
+      age:   28,
+      human: true
+  
+    # bad bad bad (mixed)
+    luke =
+      jedi:  true,  # comma
+      age:   28     # no comma
+      human: true
   ```
 
 ### Functions
