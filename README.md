@@ -290,7 +290,6 @@
   foo:'bar' # bad
 
   foo: 'bar' # good
-
   ```
 
 * Avoid spaces around arguments and before a comma `,`:
