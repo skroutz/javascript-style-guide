@@ -301,6 +301,15 @@
   foo(options, 'bar') # good
   ```
 
+* Avoid spaces around conditional constructs, loops, etc..
+
+  ```coffeescript
+  if(true) #bad
+  
+  if (true) #better
+  
+  if true #good
+
 * Assignments should be vertically aligned unless they differ a lot in length or they are less than 3:
 
   ```coffeescript
