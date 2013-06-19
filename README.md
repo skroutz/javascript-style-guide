@@ -309,6 +309,7 @@
   if (true) #better
   
   if true #good
+  ```
 
 * Assignments should be vertically aligned unless they differ a lot in length or they are less than 3:
 
