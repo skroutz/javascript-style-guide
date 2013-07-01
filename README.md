@@ -558,6 +558,7 @@ Go to "Preferences -> Settings - User" and add:
 * [W3C JavaScript APIs](http://www.w3.org/standards/techs/js#w3c_all)
 * [Annotated ECMAScript 5.1](http://es5.github.com/)
 * [JavaScript Garden](http://bonsaiden.github.io/JavaScript-Garden/)
+* [wtfjs](http://wtfjs.com/) (Fun fun)
 
 ### Inspiring styleguides
 
