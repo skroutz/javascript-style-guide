@@ -484,6 +484,18 @@
 
 * Do not use `unless` since it's really confusing. Use `if !` or `if not` instead.
 
+* When a `.coffee` file is to be preprocessed by let's say `erb` *avoid* nesting quotes of the 
+same type, as it breaks linting and may make it unparseable by other preprocessors.
+
+Example
+
+```
+message = '<%= _('ΣΜΣ') %>' # bad
+
+message = '<%= _("ΣΜΣ") %>' # good
+```
+
+
 ## Tools
 
 ### Editors
