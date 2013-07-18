@@ -246,7 +246,7 @@
   ```
   
 ### Classes
-* Try to incorporate OOP methodology when applicable.
+* Try to incorporate OOP methodologies when applicable.
 
   ```coffeescript
   class Magician
