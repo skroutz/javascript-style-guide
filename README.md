@@ -27,7 +27,7 @@
   - [Lint](#lint)
   - [Debugging](#debugging)
 - [Resources](#resources)
-  - [Docs & guides](#docs-&-guides)
+  - [Docs & guides](#docs--guides)
   - [Inspiring styleguides](#inspiring-styleguides)
   - [Books](#books)
     - [JavaScript](#javascript)
@@ -584,7 +584,7 @@ Go to "Preferences -> Settings - User" and add:
 ## Resources
 
 ### Docs & guides
-
+* [Devdocs](http://devdocs.io/javascript/)
 * [MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript?redirectlocale=en-US&redirectslug=JavaScript)
 * [WebPlatform](http://webplatform.org)
 * [W3C JavaScript APIs](http://www.w3.org/standards/techs/js#w3c_all)
