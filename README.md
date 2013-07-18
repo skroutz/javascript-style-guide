@@ -243,6 +243,25 @@
     first = new Jedi
     first.jump().yell()
   ```
+  
+### Classes
+* Try to incorporate OOP methodology when applicable.
+
+  ```coffeescript
+  Class Magician
+    # public class property
+    @DISTRACTION_DURATION: '2mins'
+    
+    # private instance function
+    distractAudience = (duration) ->
+      "I will distract them for #{duration}"
+    
+    # public instance function
+    doTrick: -> 
+      # call the instance function with a public class property
+      distractAudience(@constructor.DISTRACTION_DURATION)
+      
+  ```
 
 ### Variables
 
