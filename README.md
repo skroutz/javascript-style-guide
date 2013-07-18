@@ -9,6 +9,7 @@
   - [Strings](#strings)
   - [Objects](#objects)
   - [Functions](#functions)
+  - [Classes](#classes)
   - [Variables](#variables)
   - [Whitespace](#whitespace)
   - [Comments](#comments)
@@ -248,7 +249,7 @@
 * Try to incorporate OOP methodology when applicable.
 
   ```coffeescript
-  Class Magician
+  class Magician
     # public class property
     @DISTRACTION_DURATION: '2mins'
     
