@@ -590,6 +590,7 @@ Go to "Preferences -> Settings - User" and add:
 * [W3C JavaScript APIs](http://www.w3.org/standards/techs/js#w3c_all)
 * [Annotated ECMAScript 5.1](http://es5.github.com/)
 * [JavaScript Garden](http://bonsaiden.github.io/JavaScript-Garden/)
+* [Javascriptoo](http://www.javascriptoo.com/)
 * [wtfjs](http://wtfjs.com/) (Fun fun)
 
 ### Inspiring styleguides
@@ -604,7 +605,7 @@ Go to "Preferences -> Settings - User" and add:
 ### Books
 
 #### JavaScript
-
+j
 * [JavaScript: The Good Parts](http://www.amazon.com/JavaScript-Good-Parts-Douglas-Crockford/dp/0596517742)
 * [JavaScript Patterns](http://www.amazon.com/JavaScript-Patterns-Stoyan-Stefanov/dp/0596806752)
 * [Pro JavaScript Design Patterns](http://www.amazon.com/JavaScript-Design-Patterns-Recipes-Problem-Solution/dp/159059908X)
