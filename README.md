@@ -7,6 +7,7 @@
 - [CoffeeScript](#coffeescript)
   - [Literals](#literals)
   - [Strings](#strings)
+  - [Conditionals](#conditionals)
   - [Objects](#objects)
   - [Functions](#functions)
   - [Classes](#classes)
@@ -116,6 +117,22 @@
               </div>
               """
   ```
+  
+### <a name='js-conditionals'>Conditionals</a>
+
+  - To break a long if statement in multiple lines remember to end each line with an operator
+
+    ```coffeescript
+    # bad, actually an error
+    if foo is bar and taco 
+    is mecca
+
+    ```
+
+    ```coffeescript
+    # good
+    if foo is bar and 
+    taco is mecca
 
 ### Objects
 
