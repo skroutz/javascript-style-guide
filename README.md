@@ -118,7 +118,7 @@
               """
   ```
 
-### <a name='js-conditionals'>Conditionals</a>
+### Conditionals
 
   - To break a long if statement in multiple lines remember to end each line with an operator
 
