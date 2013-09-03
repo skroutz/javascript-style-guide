@@ -117,21 +117,21 @@
               </div>
               """
   ```
-  
+
 ### <a name='js-conditionals'>Conditionals</a>
 
   - To break a long if statement in multiple lines remember to end each line with an operator
 
     ```coffeescript
     # bad, actually an error
-    if foo is bar and taco 
+    if foo is bar and taco
     is mecca
 
     ```
 
     ```coffeescript
     # good
-    if foo is bar and 
+    if foo is bar and
     taco is mecca
 
 ### Objects
@@ -142,9 +142,9 @@
     luke =
       jedi: true
       age: 28
-  
+
     isJedi = luke['jedi'] # bad
-  
+
     isJedi = luke.jedi # good
   ```
 
@@ -155,7 +155,7 @@
       'default':
         bacon: 'nomnom'
     my_key = 'default'
-  
+
     default_food = options['default']
     default_food = options[my_key] # same
   ```
@@ -168,13 +168,13 @@
       jedi:  true
       age:   28
       human: true
-  
+
     # bad (commas)
     luke =
       jedi:  true,
       age:   28,
       human: true
-  
+
     # bad bad bad (mixed)
     luke =
       jedi:  true,  # comma
@@ -261,7 +261,7 @@
     first = new Jedi
     first.jump().yell()
   ```
-  
+
 ### Classes
 * Try to incorporate OOP methodologies when applicable.
 
@@ -269,16 +269,16 @@
   class Magician
     # public class property
     @DISTRACTION_DURATION: '2mins'
-    
+
     # private instance function
     distractAudience = (duration) ->
       "I will distract them for #{duration}"
-    
+
     # public instance function
-    doTrick: -> 
+    doTrick: ->
       # call the instance function with a public class property
       distractAudience(@constructor.DISTRACTION_DURATION)
-      
+
   ```
 
 ### Variables
@@ -342,9 +342,9 @@
 
   ```coffeescript
   if(true) #bad
-  
+
   if (true) #better
-  
+
   if true #good
   ```
 
@@ -521,14 +521,14 @@
 
 * Do not use `unless` since it's really confusing. Use `if !` or `if not` instead.
 
-* When a `.coffee` file is to be preprocessed by let's say `erb` *avoid* nesting quotes of the 
+* When a `.coffee` file is to be preprocessed by let's say `erb` *avoid* nesting quotes of the
 same type, as it breaks linting and may make it unparseable by other preprocessors.
 
   Example
 
   ```
   message = '<%= _('ΣΜΣ') %>' # bad
-  
+
   message = '<%= _("ΣΜΣ") %>' # good
   ```
 
