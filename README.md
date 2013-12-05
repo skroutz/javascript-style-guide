@@ -590,6 +590,8 @@ Go to "Preferences -> Settings - User" and add:
   $> chrome.exe --remote-debugging-port=9222
   ```
   
+  Another tool for this job is [aardwolf](https://github.com/lexandera/Aardwolf)
+  
   Also see [chrome dev tools - device emulation](https://developers.google.com/chrome-developer-tools/docs/mobile-emulation)
   for network capability emulation use [network-link-conditioner (mac)](http://nshipster.com/network-link-conditioner/) 
   and [trickle (linux)](http://monkey.org/~marius/pages/?page=trickle)
@@ -612,6 +614,7 @@ Go to "Preferences -> Settings - User" and add:
 * [Annotated ECMAScript 5.1](http://es5.github.com/)
 * [JavaScript Garden](http://bonsaiden.github.io/JavaScript-Garden/)
 * [Javascriptoo](http://www.javascriptoo.com/)
+* [jsfuck](http://www.jsfuck.com/)(Fun)
 * [wtfjs](http://wtfjs.com/) (Fun fun)
 
 ### Inspiring styleguides
@@ -626,7 +629,7 @@ Go to "Preferences -> Settings - User" and add:
 ### Books
 
 #### JavaScript
-j
+
 * [JavaScript: The Good Parts](http://www.amazon.com/JavaScript-Good-Parts-Douglas-Crockford/dp/0596517742)
 * [JavaScript Patterns](http://www.amazon.com/JavaScript-Patterns-Stoyan-Stefanov/dp/0596806752)
 * [Pro JavaScript Design Patterns](http://www.amazon.com/JavaScript-Design-Patterns-Recipes-Problem-Solution/dp/159059908X)
