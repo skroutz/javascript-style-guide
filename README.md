@@ -589,6 +589,10 @@ Go to "Preferences -> Settings - User" and add:
   $> adb forward tcp:9222 localabstract:chrome_devtools_remote
   $> chrome.exe --remote-debugging-port=9222
   ```
+  
+  Also see [chrome dev tools - device emulation](https://developers.google.com/chrome-developer-tools/docs/mobile-emulation)
+  for network capability emulation use [network-link-conditioner (mac)](http://nshipster.com/network-link-conditioner/) 
+  and [trickle (linux)](http://monkey.org/~marius/pages/?page=trickle)
 
 * [Code School Course](http://discover-devtools.codeschool.com/)
 
