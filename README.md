@@ -285,9 +285,8 @@
 
 * Initialize variables at the top of their scope, preferably in a grouped block.
 
-  ```coffeescript
-  # TODO add example
-  ```
+*  Prefix with _ unused function parameters and local variables. It's also
+   acceptable to use just _ (although it's a bit less descriptive).
 
 ### Whitespace
 
